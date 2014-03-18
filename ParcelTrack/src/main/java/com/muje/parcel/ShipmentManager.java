@@ -24,6 +24,7 @@ public class ShipmentManager {
     private static final String TABLE_SHIPMENTS = "Shipments";
     private static final String TABLE_TRACKS = "Tracks";
     private static final String SQL_SELECT_ALL_SHIPMENTS = "SELECT * FROM Shipments;";
+    private static final String SQL_SELECT_SHIPMENT_ID = "SELECT Id FROM Shipments WHERE Number = ?";
     private static final String SQL_SELECT_TRACKS = "SELECT Tracks.*, Shipments.Number FROM Tracks JOIN Shipments ON Tracks.ShipmentId=Shipments.Id WHERE Shipments.Number = ?;";
 
     private ArrayList<Shipment> shipments;
@@ -128,6 +129,23 @@ public class ShipmentManager {
             database.insert(TABLE_TRACKS, null, values);
         }
         this.shipments.add(0,shipment);
+    }
+    public void delete(int i, String consignmentNo) {
+
+        this.shipments.remove(i);
+
+        int id = 0;
+        Cursor cursor = database.rawQuery(SQL_SELECT_SHIPMENT_ID, new String[] {consignmentNo});
+        cursor.moveToFirst();
+        while(!cursor.isAfterLast()) {
+            id = cursor.getInt(0);
+            cursor.moveToNext();
+        }
+        cursor.close();
+
+        database.delete(TABLE_TRACKS, "ShipmentId = " + id, null);
+        database.delete(TABLE_SHIPMENTS, "Id = " + id, null);
+        Log.d("DEBUG", consignmentNo + " deleted");
     }
 
 }

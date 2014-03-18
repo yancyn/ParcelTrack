@@ -52,23 +52,8 @@ public class MainActivity extends ActionBarActivity {
 
         adapter = new TrackExpandableAdapter(this, manager.getShipments(), children);
         ExpandableListView listView = (ExpandableListView)findViewById(R.id.expandableListView);
-        // todo: registerForContextMenu(listView); failed
+        registerForContextMenu(listView);// do not delegate longClick event anymore otherwise contextmenu will fail
         listView.setAdapter(adapter);
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                int index = ExpandableListView.getPackedPositionGroup(l);
-                Log.d("DEBUG", "onItemLongClick");
-                Log.d("DEBUG", "Selected shipment: " + index);
-                return true;
-            }
-        });
-//        listView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
-//            @Override
-//            public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
-//                contextMenu.add(0, R.id.action_delete, 0, R.string.action_delete);
-//            }
-//        });
     }
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
@@ -77,7 +62,6 @@ public class MainActivity extends ActionBarActivity {
         inflater.inflate(R.menu.context_menu, menu);
     }
 
-    // TODO: Never being called
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         switch(item.getItemId()) {
@@ -85,9 +69,12 @@ public class MainActivity extends ActionBarActivity {
                 ExpandableListView.ExpandableListContextMenuInfo info = (ExpandableListView.ExpandableListContextMenuInfo)item.getMenuInfo();
                 int type = ExpandableListView.getPackedPositionType(info.packedPosition);
                 if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
+
                     int position = ExpandableListView.getPackedPositionGroup(info.packedPosition);
                     ArrayList<Shipment> shipments = manager.getShipments();
-                    Log.d("DEBUG", "Deleting " + shipments.get(position).getConsignmentNo());
+                    String consignmentNo = shipments.get(position).getConsignmentNo();
+
+                    manager.delete(position, consignmentNo);
                     rebind();
                 }
                 return true;
