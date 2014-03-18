@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Package xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_Bxz-MatUEeOv-6pzfx6PFQ" name="com.muje.parcel">
+  <elementImport xmi:id="_BzO6gKtUEeOv-6pzfx6PFQ">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+  </elementImport>
+  <elementImport xmi:id="_BzVBIKtUEeOv-6pzfx6PFQ">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+  </elementImport>
+  <elementImport xmi:id="_BzVBIatUEeOv-6pzfx6PFQ">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#UnlimitedNatural"/>
+  </elementImport>
+  <elementImport xmi:id="_BzVBIqtUEeOv-6pzfx6PFQ">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+  </elementImport>
+  <packagedElement xmi:type="uml:Class" xmi:id="_S1ik8KtUEeOv-6pzfx6PFQ" name="Shipment">
+    <ownedAttribute xmi:id="_qRfSAKtUEeOv-6pzfx6PFQ" name="courier" visibility="private" aggregation="composite"/>
+    <ownedAttribute xmi:id="_XSkN4K2ZEeOv-6pzfx6PFQ" name="consignmentNo" aggregation="composite"/>
+    <ownedAttribute xmi:id="_acE8gK2ZEeOv-6pzfx6PFQ" name="status" type="_CW1kMK2AEeOv-6pzfx6PFQ" aggregation="composite"/>
+    <ownedOperation xmi:id="_u4kx4KtUEeOv-6pzfx6PFQ" name="trace">
+      <ownedParameter xmi:id="_bf-wEKtVEeOv-6pzfx6PFQ" name="consignmentNo">
+        <defaultValue xmi:type="uml:LiteralString" xmi:id="_bf-wEatVEeOv-6pzfx6PFQ"/>
+      </ownedParameter>
+    </ownedOperation>
+    <ownedOperation xmi:id="_6G8u0KtUEeOv-6pzfx6PFQ" name="getTracks"/>
+    <ownedOperation xmi:id="_PB0mQKtVEeOv-6pzfx6PFQ" name="getProviderName"/>
+    <ownedOperation xmi:id="_RUYewKtVEeOv-6pzfx6PFQ" name="getLogoId"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_T08McKtUEeOv-6pzfx6PFQ" name="Track">
+    <ownedAttribute xmi:id="_VTxh8KtUEeOv-6pzfx6PFQ" name="date" aggregation="composite"/>
+    <ownedAttribute xmi:id="_crVlYKtUEeOv-6pzfx6PFQ" name="location" aggregation="composite"/>
+    <ownedAttribute xmi:id="_SzjOQK2AEeOv-6pzfx6PFQ" name="description" aggregation="composite"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_eqQJIKtUEeOv-6pzfx6PFQ" name="Courier" isAbstract="true">
+    <ownedAttribute xmi:id="_jC8LMKtVEeOv-6pzfx6PFQ" name="name" visibility="protected" aggregation="composite"/>
+    <ownedAttribute xmi:id="_lELqMKtVEeOv-6pzfx6PFQ" name="tracks" visibility="protected" aggregation="composite"/>
+    <ownedOperation xmi:id="_pcUvIKtVEeOv-6pzfx6PFQ" name="getProviderName"/>
+    <ownedOperation xmi:id="_r-OEIKtVEeOv-6pzfx6PFQ" name="getTracks"/>
+    <ownedOperation xmi:id="_tsAboKtVEeOv-6pzfx6PFQ" name="trace"/>
+    <ownedOperation xmi:id="_wQa5IKtVEeOv-6pzfx6PFQ" name="getCellValue" visibility="protected">
+      <ownedParameter xmi:id="_y9qigKtVEeOv-6pzfx6PFQ" name="html">
+        <defaultValue xmi:type="uml:LiteralString" xmi:id="_y9qigatVEeOv-6pzfx6PFQ"/>
+      </ownedParameter>
+    </ownedOperation>
+    <ownedOperation xmi:id="_PloBcKtWEeOv-6pzfx6PFQ" name="getLogoId"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_6im6oKtVEeOv-6pzfx6PFQ" name="Poslaju">
+    <generalization xmi:id="_A-TLsKtWEeOv-6pzfx6PFQ" general="_eqQJIKtUEeOv-6pzfx6PFQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_7f8soKtVEeOv-6pzfx6PFQ" name="Gdex">
+    <generalization xmi:id="_9kf-UKtVEeOv-6pzfx6PFQ" general="_eqQJIKtUEeOv-6pzfx6PFQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_8MWfoKtVEeOv-6pzfx6PFQ" name="Citylink">
+    <generalization xmi:id="__HYGUKtVEeOv-6pzfx6PFQ" general="_eqQJIKtUEeOv-6pzfx6PFQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_6FmxYKtcEeOv-6pzfx6PFQ" memberEnd="_6FmxYatcEeOv-6pzfx6PFQ _6FnYcatcEeOv-6pzfx6PFQ">
+    <ownedEnd xmi:id="_6FmxYatcEeOv-6pzfx6PFQ" name="Tracks" type="_eqQJIKtUEeOv-6pzfx6PFQ" association="_6FmxYKtcEeOv-6pzfx6PFQ">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6FnYcKtcEeOv-6pzfx6PFQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6FmxYqtcEeOv-6pzfx6PFQ" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_6FnYcatcEeOv-6pzfx6PFQ" name="dst" type="_T08McKtUEeOv-6pzfx6PFQ" aggregation="composite" association="_6FmxYKtcEeOv-6pzfx6PFQ">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6FnYc6tcEeOv-6pzfx6PFQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6FnYcqtcEeOv-6pzfx6PFQ" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_M92-4KtfEeOv-6pzfx6PFQ" memberEnd="_M93l8KtfEeOv-6pzfx6PFQ _M94NAKtfEeOv-6pzfx6PFQ">
+    <ownedEnd xmi:id="_M93l8KtfEeOv-6pzfx6PFQ" name="Tracks" type="_S1ik8KtUEeOv-6pzfx6PFQ" association="_M92-4KtfEeOv-6pzfx6PFQ">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_M93l8qtfEeOv-6pzfx6PFQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_M93l8atfEeOv-6pzfx6PFQ" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_M94NAKtfEeOv-6pzfx6PFQ" name="dst" type="_T08McKtUEeOv-6pzfx6PFQ" aggregation="composite" association="_M92-4KtfEeOv-6pzfx6PFQ">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_M94NAqtfEeOv-6pzfx6PFQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_M94NAatfEeOv-6pzfx6PFQ" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Enumeration" xmi:id="_CW1kMK2AEeOv-6pzfx6PFQ" name="Status">
+    <ownedLiteral xmi:id="_D_C4IK2AEeOv-6pzfx6PFQ" name="Sent"/>
+    <ownedLiteral xmi:id="_HHnLkK2AEeOv-6pzfx6PFQ" name="Wip"/>
+    <ownedLiteral xmi:id="_Il6VkK2AEeOv-6pzfx6PFQ" name="Delivered"/>
+    <ownedLiteral xmi:id="_Ld2MAK2AEeOv-6pzfx6PFQ" name="Invalid"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_-3ipcK2YEeOv-6pzfx6PFQ" name="ShipmentManager">
+    <ownedOperation xmi:id="_LVibMK2ZEeOv-6pzfx6PFQ" name="getShipments"/>
+    <ownedOperation xmi:id="_OnIHwK2ZEeOv-6pzfx6PFQ" name="track">
+      <ownedParameter xmi:id="_SGM2sK2ZEeOv-6pzfx6PFQ" name="consignment">
+        <defaultValue xmi:type="uml:LiteralString" xmi:id="_SGM2sa2ZEeOv-6pzfx6PFQ"/>
+      </ownedParameter>
+    </ownedOperation>
+    <ownedOperation xmi:id="_1UaQ4K2ZEeOv-6pzfx6PFQ" name="load"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_Cx4_IK2ZEeOv-6pzfx6PFQ" memberEnd="_Cx5mMK2ZEeOv-6pzfx6PFQ _Cx6NQK2ZEeOv-6pzfx6PFQ">
+    <ownedEnd xmi:id="_Cx5mMK2ZEeOv-6pzfx6PFQ" name="Shipments" type="_-3ipcK2YEeOv-6pzfx6PFQ" association="_Cx4_IK2ZEeOv-6pzfx6PFQ">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Cx5mMq2ZEeOv-6pzfx6PFQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Cx5mMa2ZEeOv-6pzfx6PFQ" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_Cx6NQK2ZEeOv-6pzfx6PFQ" name="dst" type="_S1ik8KtUEeOv-6pzfx6PFQ" aggregation="composite" association="_Cx4_IK2ZEeOv-6pzfx6PFQ">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Cx6NQq2ZEeOv-6pzfx6PFQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Cx6NQa2ZEeOv-6pzfx6PFQ" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+</uml:Package>
