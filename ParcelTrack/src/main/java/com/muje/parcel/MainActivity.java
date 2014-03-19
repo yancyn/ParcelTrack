@@ -95,7 +95,7 @@ public class MainActivity extends ActionBarActivity {
             public void run() {
                 notification();
             }
-        }, 60*30*1000, 60*30*1000);
+        }, 5*60*1000, 5*60*1000);
     }
 
     @Override
@@ -122,6 +122,18 @@ public class MainActivity extends ActionBarActivity {
         super.onDestroy();
     }
 
+//    @Override
+//    protected void onStop() {
+//        timer = new Timer();
+//        timer.schedule(new TimerTask(){
+//
+//            @Override
+//            public void run() {
+//                notification();
+//            }
+//        }, 5*60*1000, 5*60*1000);
+//        super.onStop();
+//    }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {

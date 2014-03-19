@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingLeft="24dp">
+    android:paddingLeft="@dimen/activity_horizontal_margin">
 
     <TableLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
