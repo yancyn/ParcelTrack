@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/pref_notification">
+        <EditTextPreference
+            android:title="@string/notification_hour"
+            android:summary="@string/notification_summary"
+            android:inputType="number"
+            android:key="prefNotificationHour" />
+        <SwitchPreference
+            android:summary="@string/pref_notification"
+            android:key="prefNotificationEnabled" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:icon="@android:drawable/ic_menu_help"
+        android:title="@string/title_activity_about">
+        <Preference
+            android:key="prefEmail"
+            android:icon="@android:drawable/ic_dialog_email"
+            android:title="@string/contact"
+            android:summary="@string/contact_email" />
+        <Preference
+            android:key="prefVersion"
+            android:title="@string/version" />
+    </PreferenceCategory>
+</PreferenceScreen>

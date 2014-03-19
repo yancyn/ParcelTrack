@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.muje.parcel"
-    android:versionCode="9"
-    android:versionName="0.14.3.18" >
+    android:versionCode="10"
+    android:versionName="0.14.3.19" >
 
     <uses-sdk
         android:minSdkVersion="7"
@@ -25,6 +25,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.muje.parcel.SettingsActivity"
+            android:label="@string/action_settings" >
         </activity>
     </application>
 

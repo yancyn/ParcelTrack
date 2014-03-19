@@ -1,6 +1,7 @@
 package com.muje.parcel;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -27,6 +28,7 @@ import java.util.Map;
 
 public class MainActivity extends ActionBarActivity {
 
+    public static final int RESULT_SETTINGS = 100;
     private ProgressDialog dialog = null;
     private ShipmentManager manager = null;
     private TrackExpandableAdapter adapter = null;
@@ -55,6 +57,7 @@ public class MainActivity extends ActionBarActivity {
         registerForContextMenu(listView);// do not delegate longClick event anymore otherwise contextmenu will fail
         listView.setAdapter(adapter);
     }
+
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
@@ -97,7 +100,12 @@ public class MainActivity extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
+            case R.id.action_update:
+                // TODO: Update pending parcel
+                return true;
             case R.id.action_settings:
+                Intent i = new Intent(this, SettingsActivity.class);
+                startActivityForResult(i, RESULT_SETTINGS);
                 return true;
         }
         return super.onOptionsItemSelected(item);
