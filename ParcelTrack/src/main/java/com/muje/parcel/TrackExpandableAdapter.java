@@ -83,6 +83,12 @@ public class TrackExpandableAdapter extends BaseExpandableListAdapter {
         TextView textView = (TextView)groupView.findViewById(R.id.textView);
         textView.setText(shipment.getConsignmentNo());
 
+        // show invalid if not found
+        TextView statusText = (TextView)groupView.findViewById(R.id.statusText);
+        if(shipment.getTracks().size() == 0) {
+            statusText.setText(context.getString(R.string.invalid));
+        }
+
         // set courier logo
         ImageView imageView = (ImageView)groupView.findViewById(R.id.imageView);
         imageView.setImageResource(shipment.getLogoId());
