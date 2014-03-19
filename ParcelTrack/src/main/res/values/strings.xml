@@ -4,6 +4,7 @@
     <string name="app_name">Parcel Track</string>
     <string name="hello_world">Hello world!</string>
     <string name="space"> </string>
+    <string name="invalid">Not found!</string>
 
     <string name="action_update">Update</string>
     <string name="action_delete">Delete</string>

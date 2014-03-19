@@ -36,6 +36,8 @@ public class MainActivity extends ActionBarActivity {
     private ShipmentManager manager = null;
     private TrackExpandableAdapter adapter = null;
     private Runnable runnables;
+    private String refreshNo = "";
+    private int selectedIndex = -1;
     private AdView adView;
 
     @Override
@@ -137,11 +139,22 @@ public class MainActivity extends ActionBarActivity {
         switch(item.getItemId()) {
             case R.id.action_update:
                 if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
-                    int position = ExpandableListView.getPackedPositionGroup(info.packedPosition);
+                    selectedIndex = ExpandableListView.getPackedPositionGroup(info.packedPosition);
                     ArrayList<Shipment> shipments = manager.getShipments();
-                    String consignmentNo = shipments.get(position).getConsignmentNo();
-                    manager.refresh(position, consignmentNo);
-                    rebind();
+                    refreshNo = shipments.get(selectedIndex).getConsignmentNo();
+
+                    runnables = new Runnable() {
+                        @Override
+                        public void run() {
+                            manager.refresh(selectedIndex, refreshNo);
+                            runOnUiThread(returnRes);
+                        }
+                    };
+
+                    Thread thread = new Thread(null, runnables, "Processing");
+                    thread.start();
+
+                    dialog = ProgressDialog.show(this, "Please wait", "Retrieving data...", true);
                 }
                 return true;
             case R.id.action_delete:
@@ -214,9 +227,6 @@ public class MainActivity extends ActionBarActivity {
 
         Thread thread = new Thread(null, runnables, "Processing");
         thread.start();
-
-        //TextView textView4 = (TextView)findViewById(R.id.textView4);
-        //textView4.setText("");
 
         dialog = ProgressDialog.show(this, "Please wait", "Retrieving data...", true);
     }
