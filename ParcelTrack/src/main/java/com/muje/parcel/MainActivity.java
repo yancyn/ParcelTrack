@@ -3,24 +3,23 @@ package com.muje.parcel;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,6 +32,7 @@ public class MainActivity extends ActionBarActivity {
     private ShipmentManager manager = null;
     private TrackExpandableAdapter adapter = null;
     private Runnable runnables;
+    private AdView adView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +56,45 @@ public class MainActivity extends ActionBarActivity {
         ExpandableListView listView = (ExpandableListView)findViewById(R.id.expandableListView);
         registerForContextMenu(listView);// do not delegate longClick event anymore otherwise contextmenu will fail
         listView.setAdapter(adapter);
+
+        // Create an ad.
+        adView = new AdView(this);
+        adView.setAdSize(AdSize.BANNER);
+        adView.setAdUnitId(getString(R.string.ad_unit_id));
+
+        LinearLayout layout = (LinearLayout)findViewById(R.id.adLayout);
+        layout.addView(adView);
+
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build();
+        adView.loadAd(adRequest);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(adView != null) {
+            adView.resume();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        if(adView != null) {
+            adView.pause();
+        }
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        if(adView != null) {
+            adView.destroy();
+        }
+        super.onDestroy();
+    }
+
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
@@ -146,8 +184,8 @@ public class MainActivity extends ActionBarActivity {
         Thread thread = new Thread(null, runnables, "Processing");
         thread.start();
 
-        TextView textView4 = (TextView)findViewById(R.id.textView4);
-        textView4.setText("");
+        //TextView textView4 = (TextView)findViewById(R.id.textView4);
+        //textView4.setText("");
 
         dialog = ProgressDialog.show(this, "Please wait", "Retrieving data...", true);
     }
