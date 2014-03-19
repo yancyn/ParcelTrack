@@ -88,12 +88,15 @@ public class ShipmentManager {
             shipment.setTracks(tracks);
         }
     }
-    public void track(String consignmentNo) {
+    public boolean isExist(String consignmentNo) {
         for(Shipment shipment: this.shipments) {
             if(shipment.getConsignmentNo().equals(consignmentNo)) {
-                return;
+                return true;
             }
         }
+        return false;
+    }
+    public void track(String consignmentNo) {
 
         Log.d("DEBUG", "Not exist in database");
         Shipment shipment = new Shipment(consignmentNo);
@@ -146,6 +149,14 @@ public class ShipmentManager {
         database.delete(TABLE_TRACKS, "ShipmentId = " + id, null);
         database.delete(TABLE_SHIPMENTS, "Id = " + id, null);
         Log.d("DEBUG", consignmentNo + " deleted");
+    }
+
+    /**
+     * Refresh all pending consignment no.
+     */
+    public void refresh(int i, String consignmentNo) {
+        delete(i, consignmentNo);
+        track(consignmentNo);
     }
 
 }

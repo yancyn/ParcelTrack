@@ -1,7 +1,12 @@
 package com.muje.parcel;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,7 +20,6 @@ import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
@@ -46,10 +50,18 @@ public class MainActivity extends ActionBarActivity {
         button1.setOnClickListener(button1OnClick);
 
         //only need to declare once
+        int pendingCount = 0;
+        String pendingNo = "";
         manager = new ShipmentManager(this);
         Map<Shipment, ArrayList<Track>> children = new HashMap<Shipment, ArrayList<Track>>();
         for(Shipment shipment: manager.getShipments()) {
             children.put(shipment, shipment.getTracks());
+            if(shipment.getStatus() != Status.DELIVERED) {
+                pendingCount ++;
+                if(pendingNo.length() == 0) {
+                    pendingNo = shipment.getConsignmentNo();
+                }
+            }
         }
 
         adapter = new TrackExpandableAdapter(this, manager.getShipments(), children);
@@ -69,6 +81,21 @@ public class MainActivity extends ActionBarActivity {
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .build();
         adView.loadAd(adRequest);
+
+        // TODO: Create notification
+        /* NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.parcel)
+                .setContentTitle(pendingCount + " delivered")
+                .setContentText(pendingNo);
+        Intent resultIntent = new Intent(this, MainActivity.class);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addParentStack(MainActivity.class);
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(resultPendingIntent);
+        NotificationManager manager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.notify(1, builder.build());
+        */
     }
 
     @Override
@@ -105,16 +132,23 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+        ExpandableListView.ExpandableListContextMenuInfo info = (ExpandableListView.ExpandableListContextMenuInfo)item.getMenuInfo();
+        int type = ExpandableListView.getPackedPositionType(info.packedPosition);
         switch(item.getItemId()) {
-            case R.id.action_delete:
-                ExpandableListView.ExpandableListContextMenuInfo info = (ExpandableListView.ExpandableListContextMenuInfo)item.getMenuInfo();
-                int type = ExpandableListView.getPackedPositionType(info.packedPosition);
+            case R.id.action_update:
                 if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
-
                     int position = ExpandableListView.getPackedPositionGroup(info.packedPosition);
                     ArrayList<Shipment> shipments = manager.getShipments();
                     String consignmentNo = shipments.get(position).getConsignmentNo();
-
+                    manager.refresh(position, consignmentNo);
+                    rebind();
+                }
+                return true;
+            case R.id.action_delete:
+                if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
+                    int position = ExpandableListView.getPackedPositionGroup(info.packedPosition);
+                    ArrayList<Shipment> shipments = manager.getShipments();
+                    String consignmentNo = shipments.get(position).getConsignmentNo();
                     manager.delete(position, consignmentNo);
                     rebind();
                 }
@@ -138,9 +172,6 @@ public class MainActivity extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
-            case R.id.action_update:
-                // TODO: Update pending parcel
-                return true;
             case R.id.action_settings:
                 Intent i = new Intent(this, SettingsActivity.class);
                 startActivityForResult(i, RESULT_SETTINGS);
@@ -190,7 +221,9 @@ public class MainActivity extends ActionBarActivity {
         dialog = ProgressDialog.show(this, "Please wait", "Retrieving data...", true);
     }
     private void trace(String consignmentNo) {
-        manager.track(consignmentNo);
+        if(!manager.isExist(consignmentNo)) {
+            manager.track(consignmentNo);
+        }
         runOnUiThread(returnRes);
     }
     private void rebind() {
