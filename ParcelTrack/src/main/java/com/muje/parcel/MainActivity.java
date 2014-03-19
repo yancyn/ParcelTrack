@@ -28,22 +28,32 @@ import com.google.android.gms.ads.AdView;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends ActionBarActivity {
 
-    public static final int RESULT_SETTINGS = 100;
-    private ProgressDialog dialog = null;
-    private ShipmentManager manager = null;
-    private TrackExpandableAdapter adapter = null;
-    private Runnable runnables;
+    private static final int RESULT_SETTINGS = 100;
+    private static final int NOTIFICATION_ID = 1001;
     private String refreshNo = "";
     private int selectedIndex = -1;
+
+    private TrackExpandableAdapter adapter = null;
+
+    private ProgressDialog dialog = null;
+    private ShipmentManager manager = null;
+    private Runnable runnables;
     private AdView adView;
+    private Timer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // dismiss notification if any after launch the app
+        NotificationManager nManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        nManager.cancelAll();
 
         EditText editText1 = (EditText)findViewById(R.id.editText1);
         editText1.setOnKeyListener(editText1OnKey);
@@ -52,18 +62,10 @@ public class MainActivity extends ActionBarActivity {
         button1.setOnClickListener(button1OnClick);
 
         //only need to declare once
-        int pendingCount = 0;
-        String pendingNo = "";
         manager = new ShipmentManager(this);
         Map<Shipment, ArrayList<Track>> children = new HashMap<Shipment, ArrayList<Track>>();
         for(Shipment shipment: manager.getShipments()) {
             children.put(shipment, shipment.getTracks());
-            if(shipment.getStatus() != Status.DELIVERED) {
-                pendingCount ++;
-                if(pendingNo.length() == 0) {
-                    pendingNo = shipment.getConsignmentNo();
-                }
-            }
         }
 
         adapter = new TrackExpandableAdapter(this, manager.getShipments(), children);
@@ -84,20 +86,16 @@ public class MainActivity extends ActionBarActivity {
                 .build();
         adView.loadAd(adRequest);
 
-        // TODO: Create notification
-        /* NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.parcel)
-                .setContentTitle(pendingCount + " delivered")
-                .setContentText(pendingNo);
-        Intent resultIntent = new Intent(this, MainActivity.class);
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        stackBuilder.addParentStack(MainActivity.class);
-        stackBuilder.addNextIntent(resultIntent);
-        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-        builder.setContentIntent(resultPendingIntent);
-        NotificationManager manager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
-        manager.notify(1, builder.build());
-        */
+        // create timer for launch notification
+        // TODO: Configure delay timer
+        timer = new Timer();
+        timer.schedule(new TimerTask(){
+
+            @Override
+            public void run() {
+                notification();
+            }
+        }, 60*30*1000, 60*30*1000);
     }
 
     @Override
@@ -256,5 +254,36 @@ public class MainActivity extends ActionBarActivity {
         }
 
     };
+    private void notification() {
+
+        // TODO: Add refresh whole pending parcel logic
+        int pendingCount = 0;
+        String pendingNo = "";
+        for(Shipment shipment: manager.getShipments()) {
+            if(shipment.getStatus() != Status.DELIVERED) {
+                pendingCount ++;
+                if(pendingNo.length() == 0) {
+                    pendingNo = shipment.getConsignmentNo();
+                }
+            }
+        }
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.parcel)
+                .setContentTitle(pendingCount + " delivered")
+                .setContentText(pendingNo);
+
+        Intent resultIntent = new Intent(this, MainActivity.class);
+
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addParentStack(MainActivity.class);
+        stackBuilder.addNextIntent(resultIntent);
+
+        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(resultPendingIntent);
+
+        NotificationManager nManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        nManager.notify(NOTIFICATION_ID, builder.build());
+    }
 
 }
