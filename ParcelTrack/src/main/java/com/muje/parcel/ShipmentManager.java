@@ -102,6 +102,7 @@ public class ShipmentManager {
 
         Log.d("DEBUG", "Not exist in database");
         Shipment shipment = new Shipment(consignmentNo);
+
         try {
             shipment.trace();
         } catch (Exception e) {
@@ -127,7 +128,7 @@ public class ShipmentManager {
             values = new ContentValues();
             values.put("ShipmentId", id);
             String date = dateFormat.format(track.getDate());
-            Log.d("DEBUG", "Date: " + date);
+            //Log.d("DEBUG", "Date: " + date);
             values.put("Date", date);
             values.put("Location", track.getLocation());
             values.put("Description", track.getDescription());
@@ -166,13 +167,41 @@ public class ShipmentManager {
         track(consignmentNo);
     }
     public void refreshAll() {
+        int last = this.shipments.size() - 1;
         for(int i=this.shipments.size()-1;i>=0;i--) {
-            Shipment shipment = this.shipments.get(i);
+            Shipment shipment = this.shipments.get(last);
             String consignmentNo = shipment.getConsignmentNo();
-            if(shipment.getStatus() != Status.DELIVERED) {
-                refresh(i, consignmentNo);
+            if(shipment.getStatus() == Status.DELIVERED) {
+                last --;
+            } else {
+                refresh(last, consignmentNo);
             }
         }
+    }
+
+    /**
+     * Update status of pending items and only if had delivered.
+     * @return
+     */
+    public ArrayList<Shipment> getUpdates() {
+
+        ArrayList<Shipment> updates = new ArrayList<Shipment>();
+        int last = this.shipments.size() - 1;
+        for(int i=this.shipments.size()-1;i>=0;i--) {
+            Shipment shipment = this.shipments.get(last);
+            String consignmentNo = shipment.getConsignmentNo();
+            if(shipment.getStatus() == Status.DELIVERED) {
+                last --;
+            } else {
+                refresh(i, consignmentNo);
+                Shipment updated = shipments.get(0);
+                if(updated.getStatus() == Status.DELIVERED) {
+                    updates.add(updated);
+                }
+            }
+        }
+
+        return updates;
     }
 
 }

@@ -41,7 +41,6 @@ public class MainActivity extends ActionBarActivity {
     private static final int NOTIFICATION_ID = 1001;
     private String refreshNo = "";
     private int selectedIndex = -1;
-    private static final String SPACE = " ";
 
     private TrackExpandableAdapter adapter = null;
 
@@ -353,21 +352,17 @@ public class MainActivity extends ActionBarActivity {
      */
     private void notification() {
 
-        // TODO: Add refresh whole pending parcel logic
-        int pendingCount = 0;
+        ArrayList<Shipment> updates = manager.getUpdates();
+        if(updates.size() == 0) return;
+
         String pendingNo = "";
-        for(Shipment shipment: manager.getShipments()) {
-            if(shipment.getStatus() != Status.DELIVERED) {
-                pendingCount ++;
-                if(pendingNo.length() == 0) {
-                    pendingNo = shipment.getConsignmentNo();
-                }
-            }
+        for(Shipment shipment: updates) {
+            pendingNo += shipment.getConsignmentNo() + ", ";
         }
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.parcel)
-                .setContentTitle(pendingCount + SPACE + getString(R.string.item_delivered))
+                .setContentTitle(updates.size() + getString(R.string.item_delivered))
                 .setContentText(pendingNo);
 
         Intent resultIntent = new Intent(this, MainActivity.class);

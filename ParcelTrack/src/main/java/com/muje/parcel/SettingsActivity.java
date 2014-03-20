@@ -23,8 +23,6 @@ import android.preference.SwitchPreference;
  */
 public class SettingsActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private static final String SPACE = " ";// HACK: Fix space character in strings.xml
-
     /**
      * Set notification hour and enabled.
      * @param hourStr
@@ -34,7 +32,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         if(hourStr.length() == 0) return;
 
         EditTextPreference editText = (EditTextPreference)findPreference("prefNotificationHour");
-        editText.setSummary(hourStr + SPACE + getString(R.string.notification_hour));
+        editText.setSummary(hourStr + getString(R.string.hour));
 
         int hour = Integer.parseInt(hourStr);
         if(hour == 0) {
