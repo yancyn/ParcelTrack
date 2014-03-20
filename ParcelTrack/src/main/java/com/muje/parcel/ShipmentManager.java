@@ -193,7 +193,7 @@ public class ShipmentManager {
             if(shipment.getStatus() == Status.DELIVERED) {
                 last --;
             } else {
-                refresh(i, consignmentNo);
+                refresh(last, consignmentNo);
                 Shipment updated = shipments.get(0);
                 if(updated.getStatus() == Status.DELIVERED) {
                     updates.add(updated);
