@@ -8,6 +8,7 @@ import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+import android.preference.SwitchPreference;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -22,6 +23,26 @@ import android.preference.PreferenceManager;
  */
 public class SettingsActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
+    private static final String SPACE = " ";// HACK: Fix space character in strings.xml
+
+    /**
+     * Set notification hour and enabled.
+     * @param hourStr
+     */
+    private void setNotification(String hourStr) {
+        if(hourStr == null) return;
+        if(hourStr.length() == 0) return;
+
+        EditTextPreference editText = (EditTextPreference)findPreference("prefNotificationHour");
+        editText.setSummary(hourStr + SPACE + getString(R.string.notification_hour));
+
+        int hour = Integer.parseInt(hourStr);
+        if(hour == 0) {
+            //SwitchPreference prefNotified = (SwitchPreference)findPreference("prefNotificationEnabled");
+            //TODO: prefNotified.setChecked(false);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,11 +52,9 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
             // display value in setting if any
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-            String hour = sharedPreferences.getString("prefNotificationHour", "");
-            if(hour.length() > 0) {
-                EditTextPreference editText = (EditTextPreference)findPreference("prefNotificationHour");
-                editText.setSummary(hour + getString(R.string.space) + getString(R.string.notification_hour));
-            }
+            // set notification hour
+            String hourStr = sharedPreferences.getString("prefNotificationHour", "");
+            setNotification(hourStr);
 
             // set contact developer
             Preference prefEmail = findPreference("prefEmail");
@@ -54,6 +73,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
             Preference prefVersion = findPreference("prefVersion");
             String version = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
             prefVersion.setSummary(version);
+
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
@@ -77,7 +97,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         if(pref instanceof EditTextPreference) {
             EditTextPreference editText = (EditTextPreference)pref;
             if(editText.getKey().equals("prefNotificationHour")) {
-                editText.setSummary(editText.getText() + getString(R.string.space) + getString(R.string.notification_hour));
+                setNotification(editText.getText());
             }
         }
     }
