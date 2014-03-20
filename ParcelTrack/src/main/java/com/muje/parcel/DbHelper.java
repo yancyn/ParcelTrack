@@ -7,6 +7,7 @@ import android.util.Log;
 
 /**
  * Created by yeang-shing.then on 3/17/14.
+ * http://www.vogella.com/tutorials/AndroidSQLite/article.html
  */
 public class DbHelper extends SQLiteOpenHelper {
 

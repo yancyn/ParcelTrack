@@ -26,6 +26,8 @@ public class ShipmentManager {
     private static final String SQL_SELECT_ALL_SHIPMENTS = "SELECT * FROM Shipments;";
     private static final String SQL_SELECT_SHIPMENT_ID = "SELECT Id FROM Shipments WHERE Number = ?";
     private static final String SQL_SELECT_TRACKS = "SELECT Tracks.*, Shipments.Number FROM Tracks JOIN Shipments ON Tracks.ShipmentId=Shipments.Id WHERE Shipments.Number = ?;";
+    private static final String SQL_DELETE_ALL_TRACKS = "DELETE FROM Tracks";
+    private static final String SQL_DELETE_ALL_SHIPMENTS = "DELETE FROM Shipments";
 
     private ArrayList<Shipment> shipments;
     public ArrayList<Shipment> getShipments() { return this.shipments; }
@@ -150,6 +152,11 @@ public class ShipmentManager {
         database.delete(TABLE_SHIPMENTS, "Id = " + id, null);
         Log.d("DEBUG", consignmentNo + " deleted");
     }
+    public void deleteAll() {
+        database.execSQL(SQL_DELETE_ALL_TRACKS);
+        database.execSQL(SQL_DELETE_ALL_SHIPMENTS);
+        this.shipments.clear();
+    }
 
     /**
      * Refresh all pending consignment no.
@@ -157,6 +164,15 @@ public class ShipmentManager {
     public void refresh(int i, String consignmentNo) {
         delete(i, consignmentNo);
         track(consignmentNo);
+    }
+    public void refreshAll() {
+        for(int i=this.shipments.size()-1;i>=0;i--) {
+            Shipment shipment = this.shipments.get(i);
+            String consignmentNo = shipment.getConsignmentNo();
+            if(shipment.getStatus() != Status.DELIVERED) {
+                refresh(i, consignmentNo);
+            }
+        }
     }
 
 }

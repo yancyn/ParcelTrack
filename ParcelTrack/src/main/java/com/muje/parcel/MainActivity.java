@@ -201,16 +201,33 @@ public class MainActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.action_update_all:
-                // TODO: Refresh all pending parcel status
-                break;
+                // Refresh all pending parcel status
+                Log.d("DEBUG", "Refresh all pending parcel");
+                runnables = new Runnable() {
+                    @Override
+                    public void run() {
+                        manager.refreshAll();
+                        runOnUiThread(returnRes);
+                    }
+                };
+
+                Thread thread = new Thread(null, runnables, "Processing");
+                thread.start();
+
+                dialog = ProgressDialog.show(this, "Please wait", "Retrieving data...", true);
+                return true;
             case R.id.action_clear_all:
-                // TODO: Clear all history
-                break;
+                // Clear all history
+                Log.d("DEBUG", "Remove all history");
+                manager.deleteAll();
+                rebind();
+                return true;
             case R.id.action_settings:
                 Intent i = new Intent(this, SettingsActivity.class);
                 startActivityForResult(i, RESULT_SETTINGS);
                 return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 
