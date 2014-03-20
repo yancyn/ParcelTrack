@@ -1,9 +1,11 @@
 package com.muje.parcel;
 
+import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -218,9 +220,11 @@ public class MainActivity extends ActionBarActivity {
                 return true;
             case R.id.action_clear_all:
                 // Clear all history
-                Log.d("DEBUG", "Remove all history");
-                manager.deleteAll();
-                rebind();
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage(getString(R.string.are_you_sure))
+                        .setPositiveButton(getString(R.string.yes), dialogListener)
+                        .setNegativeButton(getString(R.string.no), dialogListener)
+                        .show();
                 return true;
             case R.id.action_settings:
                 Intent i = new Intent(this, SettingsActivity.class);
@@ -230,6 +234,21 @@ public class MainActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    private DialogInterface.OnClickListener dialogListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialogInterface, int i) {
+            switch(i) {
+                case DialogInterface.BUTTON_POSITIVE:
+                    Log.d("DEBUG", "Remove all history");
+                    manager.deleteAll();
+                    rebind();
+                    break;
+                case DialogInterface.BUTTON_NEGATIVE:
+                    return;
+            }
+        }
+    };
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

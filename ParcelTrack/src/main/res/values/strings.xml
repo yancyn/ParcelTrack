@@ -6,6 +6,9 @@
     <string name="hour"> hour</string>
     <string name="invalid">Not found!</string>
     <string name="item_delivered">item delivered</string>
+    <string name="are_you_sure">Are you sure?"</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
     <string name="action_update">Update</string>
     <string name="action_delete">Delete</string>
