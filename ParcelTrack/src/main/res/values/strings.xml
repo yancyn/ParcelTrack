@@ -5,6 +5,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="hour"> hour</string>
     <string name="invalid">Not found!</string>
+    <string name="item_delivered">item delivered</string>
 
     <string name="action_update">Update</string>
     <string name="action_delete">Delete</string>

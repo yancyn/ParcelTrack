@@ -21,7 +21,11 @@
             android:layout_height="wrap_content"
             android:id="@+id/statusText"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:layout_marginLeft="@dimen/border_margin" />
+            android:layout_marginLeft="@dimen/tab_margin"
+            android:layout_alignParentBottom="false"
+            android:layout_alignParentStart="false"
+            android:gravity="bottom"
+            android:layout_alignBottom="@+id/imageView" />
 
         <ImageView
             android:layout_width="wrap_content"
