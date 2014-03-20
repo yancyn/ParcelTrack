@@ -357,7 +357,8 @@ public class MainActivity extends ActionBarActivity {
 
         String pendingNo = "";
         for(Shipment shipment: updates) {
-            pendingNo += shipment.getConsignmentNo() + ", ";
+            if(pendingNo.length()>0) pendingNo += getString(R.string.comma);
+            pendingNo += shipment.getConsignmentNo();
         }
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)

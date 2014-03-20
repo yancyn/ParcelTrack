@@ -3,6 +3,7 @@
 
     <string name="app_name">Parcel Track</string>
     <string name="hello_world">Hello world!</string>
+    <string name="comma">,\u0020</string>
     <string name="hour">\u0020hour</string>
     <string name="invalid">Not found!</string>
     <string name="item_delivered">\u0020item delivered</string>
