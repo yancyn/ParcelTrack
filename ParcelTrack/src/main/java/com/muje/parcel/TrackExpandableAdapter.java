@@ -102,11 +102,11 @@ public class TrackExpandableAdapter extends BaseExpandableListAdapter {
 
         // set background color based on delivery status
         if(shipment.getStatus().equals(Status.SENT)) {
-            groupView.setBackgroundColor(Color.RED);
+            groupView.setBackgroundColor(Color.argb(255, 255, 199, 206)); //Color.RED);
         } else if(shipment.getStatus().equals(Status.WIP)) {
-            groupView.setBackgroundColor(Color.argb(255, 255, 204, 0)); //.YELLOW);
+            groupView.setBackgroundColor(Color.argb(255, 255, 235, 156)); //.YELLOW);
         } else if(shipment.getStatus().equals(Status.DELIVERED)) {
-            groupView.setBackgroundColor(Color.argb(255, 0, 128, 0));; //.GREEN
+            groupView.setBackgroundColor(Color.argb(255, 198, 239, 206));; //.GREEN
         }
 
         return groupView;
