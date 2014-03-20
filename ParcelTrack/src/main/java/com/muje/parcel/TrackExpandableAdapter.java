@@ -84,9 +84,16 @@ public class TrackExpandableAdapter extends BaseExpandableListAdapter {
         textView.setText(shipment.getConsignmentNo());
 
         // show invalid if not found
+        // if found show sent or delivered date instead
         TextView statusText = (TextView)groupView.findViewById(R.id.statusText);
         if(shipment.getTracks().size() == 0) {
             statusText.setText(context.getString(R.string.invalid));
+        } else {
+            if(shipment.getStatus() == Status.DELIVERED) {
+                statusText.setText(shipment.getDelivered().toLocaleString());
+            } else {
+                statusText.setText(shipment.getSent().toLocaleString());
+            }
         }
 
         // set courier logo

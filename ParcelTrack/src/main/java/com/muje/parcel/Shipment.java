@@ -4,6 +4,7 @@ import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,11 +15,17 @@ public class Shipment {
 
     private Courier courier;
     private String consignmentNo;
-    private Status status;
     public String getConsignmentNo() { return this.consignmentNo; }
+    private Status status;
     public Status getStatus() { return this.status; }
+    private Date sent;
+    public Date getSent() { return this.sent; }
+    private Date delivered;
+    public Date getDelivered() { return this.delivered; }
     private ArrayList<Track> tracks;
-    public void setTracks(ArrayList<Track> tracks) { this.tracks = tracks;}
+    public void setTracks(ArrayList<Track> tracks) {
+        this.tracks = tracks;
+        setProperties();}
     /**
      * Return tracks collection.
      * @return
@@ -47,7 +54,7 @@ public class Shipment {
             }
 
             //check is citylink's parcel ie. 060301203057634
-            regex = "\\d{15}";
+            regex = "[0-9]{15}";
             pattern = Pattern.compile(regex);
             matcher = pattern.matcher(consignmentNo);
             if(matcher.find()) {
@@ -55,7 +62,7 @@ public class Shipment {
             }
 
             //check is gdex's parcel ie. 4340560475
-            regex = "\\d{10}";
+            regex = "[0-9]{10}";
             pattern = Pattern.compile(regex);
             matcher = pattern.matcher(consignmentNo);
             if(matcher.find()) {
@@ -91,7 +98,7 @@ public class Shipment {
         }
 
         //check is citylink's parcel ie. 060301203057634
-        regex = "\\d{15}";
+        regex = "[0-9]{15}";
         pattern = Pattern.compile(regex);
         matcher = pattern.matcher(consignmentNo);
         if(matcher.find()) {
@@ -101,7 +108,7 @@ public class Shipment {
         }
 
         //check is gdex's parcel ie. 4340560475
-        regex = "\\d{10}";
+        regex = "[0-9]{10}";
         pattern = Pattern.compile(regex);
         matcher = pattern.matcher(consignmentNo);
         if(matcher.find()) {
@@ -125,20 +132,30 @@ public class Shipment {
             e.printStackTrace();
         }
 
-        if(!courier.equals(null)) {
-            this.tracks = this.courier.getTracks();
-            if(!tracks.equals(null)) {
-                if(tracks.size() == 1) {
-                    this.status = Status.SENT;
-                } else if(tracks.size() > 1) {
-                    this.status = Status.WIP;
-                    for(Track track: tracks) {
-                        if(track.getDescription().toLowerCase().contains("success")) {
-                            this.status = Status.DELIVERED;
-                        } else if(track.getDescription().toLowerCase().contains("delivered")) {
-                            this.status = Status.DELIVERED;
-                        }
-                    }
+        if(courier == null) return;
+
+        this.tracks = this.courier.getTracks();
+        setProperties();
+    }
+    private void setProperties() {
+        if(this.tracks == null) return;
+
+        // determine status, sent and delivered date
+        if(tracks.size() == 1) {
+            this.status = Status.SENT;
+            sent = tracks.get(0).getDate();
+        } else if(tracks.size() > 1) {
+            this.status = Status.WIP;
+            for(Track track: tracks) {
+                if(sent == null) sent = track.getDate();
+                if(sent.compareTo(track.getDate()) < 0) sent = track.getDate();
+
+                if(track.getDescription().toLowerCase().contains("success")) {
+                    this.status = Status.DELIVERED;
+                    this.delivered = track.getDate();
+                } else if(track.getDescription().toLowerCase().contains("delivered")) {
+                    this.status = Status.DELIVERED;
+                    this.delivered = track.getDate();
                 }
             }
         }

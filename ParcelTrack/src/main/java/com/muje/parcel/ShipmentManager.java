@@ -74,7 +74,7 @@ public class ShipmentManager {
                 Date date = null;
                 try {
                     String dateString = cursor.getString(2);
-                    Log.d("DEBUG", "Date: " + dateString);
+                    //Log.d("DEBUG", "Date: " + dateString);
                     SimpleDateFormat dt = new SimpleDateFormat("M/dd/yyyy hh:mm:ss a");
                     date = dateFormat.parse(dateString);
                 } catch (ParseException e) {
