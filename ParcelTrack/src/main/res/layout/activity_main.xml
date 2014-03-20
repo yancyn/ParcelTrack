@@ -28,6 +28,13 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/abc_ic_clear"
+            android:id="@+id/button2"
+            android:layout_gravity="center_vertical" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:background="@drawable/abc_ic_search"
             android:id="@+id/button1"
             android:layout_gravity="center_vertical" />

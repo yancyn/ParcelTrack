@@ -5,6 +5,8 @@ import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.ActionBarActivity;
@@ -40,6 +42,7 @@ public class MainActivity extends ActionBarActivity {
 
     private TrackExpandableAdapter adapter = null;
 
+    private EditText editText1;
     private ProgressDialog dialog = null;
     private ShipmentManager manager = null;
     private Runnable runnables;
@@ -55,8 +58,17 @@ public class MainActivity extends ActionBarActivity {
         NotificationManager nManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
         nManager.cancelAll();
 
-        EditText editText1 = (EditText)findViewById(R.id.editText1);
+        editText1 = (EditText)findViewById(R.id.editText1);
         editText1.setOnKeyListener(editText1OnKey);
+
+        // add clear all search text
+        ImageButton button2 = (ImageButton)findViewById(R.id.button2);
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                editText1.setText("");
+            }
+        });
 
         ImageButton button1 = (ImageButton) findViewById(R.id.button1);
         button1.setOnClickListener(button1OnClick);
@@ -87,15 +99,7 @@ public class MainActivity extends ActionBarActivity {
         adView.loadAd(adRequest);
 
         // create timer for launch notification
-        // TODO: Configure delay timer
-        timer = new Timer();
-        timer.schedule(new TimerTask(){
-
-            @Override
-            public void run() {
-                notification();
-            }
-        }, 5*60*1000, 5*60*1000);
+        setNotification();
     }
 
     @Override
@@ -203,6 +207,17 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch(requestCode) {
+            case RESULT_SETTINGS:
+                setNotification();
+                break;
+        }
+    }
+
     protected View.OnKeyListener editText1OnKey = new View.OnKeyListener() {
 
         @Override
@@ -259,13 +274,39 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         public void run() {
-
-            // TODO: Handle no result found
             dialog.dismiss();
             rebind();
         }
 
     };
+
+    private void setNotification() {
+
+        if(timer != null) timer.cancel();
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        boolean enabled = sharedPreferences.getBoolean("prefNotificationEnabled", false);
+        Log.d("DEBUG", "Notification: " + enabled);
+        if(!enabled) return;
+
+        String hourStr = sharedPreferences.getString("prefNotificationHour", "0");
+        int hour = Integer.parseInt(hourStr);
+        if(hour > 0) {
+            timer = new Timer();
+            timer.schedule(new TimerTask(){
+                @Override
+                public void run() {
+                    notification();
+                }
+            }, hour*60*1000, hour*60*1000);
+        }
+    }
+
+    /**
+     * Show up in notification bar
+     * http://developer.android.com/guide/topics/ui/notifiers/notifications.html
+     */
     private void notification() {
 
         // TODO: Add refresh whole pending parcel logic
