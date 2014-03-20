@@ -39,6 +39,7 @@ public class MainActivity extends ActionBarActivity {
     private static final int NOTIFICATION_ID = 1001;
     private String refreshNo = "";
     private int selectedIndex = -1;
+    private static final String SPACE = " ";
 
     private TrackExpandableAdapter adapter = null;
 
@@ -199,6 +200,12 @@ public class MainActivity extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
+            case R.id.action_update_all:
+                // TODO: Refresh all pending parcel status
+                break;
+            case R.id.action_clear_all:
+                // TODO: Clear all history
+                break;
             case R.id.action_settings:
                 Intent i = new Intent(this, SettingsActivity.class);
                 startActivityForResult(i, RESULT_SETTINGS);
@@ -293,13 +300,14 @@ public class MainActivity extends ActionBarActivity {
         String hourStr = sharedPreferences.getString("prefNotificationHour", "0");
         int hour = Integer.parseInt(hourStr);
         if(hour > 0) {
+            Log.d("DEBUG", "Notify every " + hour + " hours");
             timer = new Timer();
             timer.schedule(new TimerTask(){
                 @Override
                 public void run() {
                     notification();
                 }
-            }, hour*60*1000, hour*60*1000);
+            }, hour*60*60*1000, hour*60*60*1000);
         }
     }
 
@@ -323,7 +331,7 @@ public class MainActivity extends ActionBarActivity {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.parcel)
-                .setContentTitle(pendingCount + " delivered")
+                .setContentTitle(pendingCount + SPACE + getString(R.string.item_delivered))
                 .setContentText(pendingNo);
 
         Intent resultIntent = new Intent(this, MainActivity.class);
