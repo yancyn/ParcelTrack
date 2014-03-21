@@ -13,6 +13,8 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
@@ -40,6 +42,7 @@ public class MainActivity extends ActionBarActivity {
     private static final int RESULT_SETTINGS = 100;
     private static final int NOTIFICATION_ID = 1001;
     private String refreshNo = "";
+    private String searchText = "";
     private int selectedIndex = -1;
 
     private TrackExpandableAdapter adapter = null;
@@ -62,6 +65,7 @@ public class MainActivity extends ActionBarActivity {
 
         editText1 = (EditText)findViewById(R.id.editText1);
         editText1.setOnKeyListener(editText1OnKey);
+        editText1.addTextChangedListener(searchTextWatcher);
 
         // add clear all search text
         ImageButton button2 = (ImageButton)findViewById(R.id.button2);
@@ -282,13 +286,31 @@ public class MainActivity extends ActionBarActivity {
             begin();
         }
     };
+    protected TextWatcher searchTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+            Log.d("DEBUG", "Filtering: " + charSequence);
+            adapter.getFilter().filter(charSequence);
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+        }
+    };
 
     private void begin() {
         runnables = new Runnable() {
             @Override
             public void run() {
                 EditText editText1 = (EditText) findViewById(R.id.editText1);
-                trace(editText1.getText().toString());
+                searchText = editText1.getText().toString();
+                trace(searchText);
             }
         };
 
@@ -318,6 +340,7 @@ public class MainActivity extends ActionBarActivity {
         public void run() {
             dialog.dismiss();
             rebind();
+            adapter.getFilter().filter(searchText);
         }
 
     };

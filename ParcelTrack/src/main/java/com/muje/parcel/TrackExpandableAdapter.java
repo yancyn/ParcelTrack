@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,11 +19,13 @@ import java.util.Map;
 /**
  * Created by yeang-shing.then on 3/17/14.
  */
-public class TrackExpandableAdapter extends BaseExpandableListAdapter {
+public class TrackExpandableAdapter extends BaseExpandableListAdapter implements Filterable {
     private Context context;
 
+    private List<Shipment> originalList;
     private List<Shipment> headerList;
     public void setGroupList(List<Shipment> shipments) {
+        this.originalList = shipments;
         this.headerList = shipments;
     }
 
@@ -32,6 +36,7 @@ public class TrackExpandableAdapter extends BaseExpandableListAdapter {
 
     public TrackExpandableAdapter(Context context, List<Shipment> headerList, Map<Shipment, ArrayList<Track>> childList) {
         this.context = context;
+        this.originalList = headerList;
         this.headerList = headerList;
         this.childList = childList;
     }
@@ -142,5 +147,47 @@ public class TrackExpandableAdapter extends BaseExpandableListAdapter {
     @Override
     public boolean isChildSelectable(int i, int i2) {
         return false;
+    }
+
+    /**
+     * Filtering implementation.
+     * http://www.survivingwithandroid.com/2012/10/android-listview-custom-filter-and.html
+     */
+    private class ShipmentFilter extends Filter {
+
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+
+            // TODO: Add filter on multiple consignment number separated by comma
+            FilterResults result = new FilterResults();
+            List<Shipment> filteredItems = new ArrayList<Shipment>();
+            if(charSequence == null)
+                filteredItems = originalList;// headerList;
+            else if(charSequence.length() == 0)
+                filteredItems = originalList;// headerList;
+            else {
+                for(Shipment shipment: headerList) {
+                    if(shipment.getConsignmentNo().contains(charSequence)) {
+                        filteredItems.add(shipment);
+                    }
+                }
+            }
+
+            result.count = filteredItems.size();
+            result.values = filteredItems;
+            return result;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            headerList = (ArrayList<Shipment>)filterResults.values;
+            notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public Filter getFilter() {
+        ShipmentFilter filter = new ShipmentFilter();
+        return filter;
     }
 }
