@@ -9,6 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+/**
+ * Obsoleted. Replaced by TrackExpandableAdapter.
+ */
 public class TrackArrayAdapter extends ArrayAdapter<Track> {
 	
 	private List<Track> tracks;

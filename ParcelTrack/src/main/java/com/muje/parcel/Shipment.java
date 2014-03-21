@@ -46,7 +46,7 @@ public class Shipment {
         if(courier == null) {
             //determine which Courier to be use
             //check is poslaju's parcel ie. EM046999084MY
-            String regex = "[a-zA-Z]{2}\\d{9}[a-zA-Z]{2}";
+            String regex = "[a-zA-Z]{2}[0-9]{9}[a-zA-Z]{2}";
             Pattern pattern = Pattern.compile(regex);
             Matcher matcher = pattern.matcher(consignmentNo);
             if(matcher.find()) {
@@ -88,7 +88,7 @@ public class Shipment {
     private void locateCourier() throws Exception  {
         //determine which Courier to be use
         //check is poslaju's parcel ie. EM046999084MY
-        String regex = "[a-zA-Z]{2}\\d{9}[a-zA-Z]{2}";
+        String regex = "[a-zA-Z]{2}[0-9]{9}[a-zA-Z]{2}";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(consignmentNo);
         if(matcher.find()) {
@@ -137,6 +137,10 @@ public class Shipment {
         this.tracks = this.courier.getTracks();
         setProperties();
     }
+
+    /**
+     * Set status, send and delivered date based on tracks collection.
+     */
     private void setProperties() {
         if(this.tracks == null) return;
 
@@ -148,7 +152,7 @@ public class Shipment {
             this.status = Status.WIP;
             for(Track track: tracks) {
                 if(sent == null) sent = track.getDate();
-                if(sent.compareTo(track.getDate()) < 0) sent = track.getDate();
+                if(track.getDate().compareTo(sent) < 0) sent = track.getDate();
 
                 if(track.getDescription().toLowerCase().contains("success")) {
                     this.status = Status.DELIVERED;

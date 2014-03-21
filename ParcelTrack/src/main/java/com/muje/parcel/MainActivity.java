@@ -59,13 +59,10 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // dismiss notification if any after launch the app
+        // dismiss notification after launch the app if any
         NotificationManager nManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
         nManager.cancelAll();
 
-        editText1 = (EditText)findViewById(R.id.editText1);
-        editText1.setOnKeyListener(editText1OnKey);
-        editText1.addTextChangedListener(searchTextWatcher);
 
         // add clear all search text
         ImageButton button2 = (ImageButton)findViewById(R.id.button2);
@@ -75,6 +72,10 @@ public class MainActivity extends ActionBarActivity {
                 editText1.setText("");
             }
         });
+
+        editText1 = (EditText)findViewById(R.id.editText1);
+        editText1.setOnKeyListener(editText1OnKey);
+        editText1.addTextChangedListener(searchTextWatcher);
 
         ImageButton button1 = (ImageButton) findViewById(R.id.button1);
         button1.setOnClickListener(button1OnClick);
@@ -334,6 +335,10 @@ public class MainActivity extends ActionBarActivity {
         adapter.setChildList(children);
         adapter.notifyDataSetChanged();
     }
+
+    /**
+     * After track parcel number rebind adapter and show only one item.
+     */
     private Runnable returnRes = new Runnable() {
 
         @Override
