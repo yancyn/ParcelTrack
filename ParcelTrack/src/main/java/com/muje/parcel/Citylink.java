@@ -119,10 +119,10 @@ public class Citylink extends Courier {
 	}
 	/**
 	 * Convert to correct date object.
+     * http://tonysilvestri.com/blog/2010/09/27/android-converting-a-date-string-to-date-object/
 	 * @param date
 	 * @return
 	 * @throws ParseException
-	 * @see http://tonysilvestri.com/blog/2010/09/27/android-converting-a-date-string-to-date-object/
 	 */
 	private Date toDate(String date) throws ParseException {
 		//convert Monday, March 28, 2011 08:48 PM

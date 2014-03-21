@@ -49,31 +49,6 @@ public class Shipment {
      */
     public int getLogoId() {
         if(courier == null) {
-            //determine which Courier to be use
-            //check is poslaju's parcel ie. EM046999084MY
-            String regex = "[a-zA-Z]{2}[0-9]{9}[a-zA-Z]{2}";
-            Pattern pattern = Pattern.compile(regex);
-            Matcher matcher = pattern.matcher(consignmentNo);
-            if(matcher.find()) {
-                return R.drawable.poslaju;
-            }
-
-            //check is citylink's parcel ie. 060301203057634
-            regex = "[0-9]{15}";
-            pattern = Pattern.compile(regex);
-            matcher = pattern.matcher(consignmentNo);
-            if(matcher.find()) {
-                return R.drawable.citylink;
-            }
-
-            //check is gdex's parcel ie. 4340560475
-            regex = "[0-9]{10}";
-            pattern = Pattern.compile(regex);
-            matcher = pattern.matcher(consignmentNo);
-            if(matcher.find()) {
-                return R.drawable.gdex;
-            }
-
             return 0;
         } else {
             return this.courier.getLogoId();
@@ -81,41 +56,36 @@ public class Shipment {
     }
 
     public Shipment(String consignmentNo) {
-        this.consignmentNo = consignmentNo;
+
         this.status = Status.INVALID;
         this.label = "";
         this.tracks = new ArrayList<Track>();
+
+        this.consignmentNo = consignmentNo;
+        try {
+            locateCourier();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     private void locateCourier() throws Exception  {
+
         //determine which Courier to be use
         //check is poslaju's parcel ie. EM046999084MY
-        String regex = "[a-zA-Z]{2}[0-9]{9}[a-zA-Z]{2}";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(consignmentNo);
-        if(matcher.find()) {
+        if(consignmentNo.matches("[a-zA-Z]{2}[0-9]{9}[a-zA-Z]{2}")) {
             courier = new Poslaju();
-            courier.trace(consignmentNo);
-            return;
         }
-
         //check is citylink's parcel ie. 060301203057634
-        regex = "[0-9]{15}";
-        pattern = Pattern.compile(regex);
-        matcher = pattern.matcher(consignmentNo);
-        if(matcher.find()) {
+        else if(consignmentNo.matches("[0-9]{15}")) {
             courier = new Citylink();
-            courier.trace(consignmentNo);
-            return;
         }
-
         //check is gdex's parcel ie. 4340560475
-        regex = "[0-9]{10}";
-        pattern = Pattern.compile(regex);
-        matcher = pattern.matcher(consignmentNo);
-        if(matcher.find()) {
+        else if(consignmentNo.matches("[0-9]{10}")) {
             courier = new Gdex();
-            courier.trace(consignmentNo);
-            return;
+        }
+        //check is FedEx's parcel ie. 797337230186
+        else if(consignmentNo.matches("[0-9]{12}")) {
+            courier = new Fedex();
         }
     }
     /**
@@ -128,7 +98,7 @@ public class Shipment {
         Log.d("DEBUG", "Consignment No: " + consignmentNo);
 
         try {
-            locateCourier();
+            this.courier.trace(consignmentNo);
         } catch (Exception e) {
             e.printStackTrace();
         }

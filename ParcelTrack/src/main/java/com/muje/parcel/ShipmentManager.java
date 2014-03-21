@@ -25,7 +25,6 @@ public class ShipmentManager {
     private static final String TABLE_TRACKS = "Tracks";
     private static final String SQL_SELECT_ALL_SHIPMENTS = "SELECT * FROM Shipments";
     private static final String SQL_SELECT_SHIPMENT_ID = "SELECT Id FROM Shipments WHERE Number = ?";
-    private static final String SQL_UPDATE_SHIPMENT = "UPDATE Shipments SET Label = ? WHERE Number = ?";
     private static final String SQL_SELECT_TRACKS = "SELECT Tracks.*, Shipments.Number FROM Tracks JOIN Shipments ON Tracks.ShipmentId=Shipments.Id WHERE Shipments.Number = ?";
     private static final String SQL_DELETE_ALL_TRACKS = "DELETE FROM Tracks";
     private static final String SQL_DELETE_ALL_SHIPMENTS = "DELETE FROM Shipments";
@@ -118,7 +117,7 @@ public class ShipmentManager {
     }
 
     /**
-     * Update specific shipment in collection and database.
+     * Update specific shipment in collection and database when add annotation.
      * @param shipment
      */
     public void update(Shipment shipment) {
@@ -132,7 +131,6 @@ public class ShipmentManager {
         ContentValues values = new ContentValues();
         values.put("Label", shipment.getLabel());
         database.update(TABLE_SHIPMENTS, values, "Number = ?", new String[] {shipment.getConsignmentNo()});
-        //database.rawQuery(SQL_UPDATE_SHIPMENT, new String[] { shipment.getLabel(), shipment.getConsignmentNo()});
     }
     public void delete(int i, String consignmentNo) {
 

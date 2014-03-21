@@ -32,6 +32,8 @@ public abstract class Courier {
 			return R.drawable.citylink;
 		} else if(this.name.equals("gdex")) {
             return R.drawable.gdex;
+        } else if(this.name.equals("fedex")) {
+            return R.drawable.fedex;
         }
 		
 		return -1;//null
