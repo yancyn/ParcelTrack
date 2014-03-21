@@ -16,7 +16,7 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_SHIPMENTS = "CREATE TABLE IF NOT EXISTS Shipments("
             + "Id integer NOT NULL PRIMARY KEY autoincrement,"
             + "Number text NOT NULL,"
-            + "Status integer DEFAULT 0)";
+            + "Label text)";
     private static final String CREATE_TABLE_TRACKS = "CREATE TABLE IF NOT EXISTS Tracks("
             + "Id integer NOT NULL PRIMARY KEY autoincrement,"
             + "ShipmentId integer NOT NULL,"

@@ -18,6 +18,9 @@ public class Shipment {
     public String getConsignmentNo() { return this.consignmentNo; }
     private Status status;
     public Status getStatus() { return this.status; }
+    private String label;
+    public String getLabel() { return this.label;}
+    public void setLabel(String label) { this.label = label;}
     private Date sent;
     public Date getSent() { return this.sent; }
     private Date delivered;
@@ -78,11 +81,7 @@ public class Shipment {
     public Shipment(String consignmentNo) {
         this.consignmentNo = consignmentNo;
         this.status = Status.INVALID;
-        this.tracks = new ArrayList<Track>();
-    }
-    public Shipment(String consignmentNo, Status status) {
-        this.consignmentNo = consignmentNo;
-        this.status = status;
+        this.label = "";
         this.tracks = new ArrayList<Track>();
     }
     private void locateCourier() throws Exception  {

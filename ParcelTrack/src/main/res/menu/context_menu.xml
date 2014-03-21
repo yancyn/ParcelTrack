@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/action_annotate"
+        android:title="@string/action_annotate"
+        android:orderInCategory="10"
+        android:showAsAction="never" />
     <item android:id="@+id/action_update"
         android:title="@string/action_update"
-        android:orderInCategory="10"
+        android:orderInCategory="20"
         android:showAsAction="never" />
     <item android:id="@+id/action_delete"
         android:title="@string/action_delete"
-        android:orderInCategory="20"
+        android:orderInCategory="30"
         android:showAsAction="never" />
 </menu>

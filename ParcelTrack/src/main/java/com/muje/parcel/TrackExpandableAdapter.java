@@ -84,22 +84,31 @@ public class TrackExpandableAdapter extends BaseExpandableListAdapter implements
 
         Shipment shipment = headerList.get(i);
 
+        ImageView bookmark = (ImageView)groupView.findViewById(R.id.imageView2);
+        int visible = (shipment.getLabel().length()>0) ? View.VISIBLE : View.INVISIBLE;
+        bookmark.setVisibility(visible);
+
         // show history consignment number
         TextView textView = (TextView)groupView.findViewById(R.id.textView);
         textView.setText(shipment.getConsignmentNo());
 
         // show invalid if not found
         // if found show sent or delivered date instead
+        String status = "";
         TextView statusText = (TextView)groupView.findViewById(R.id.statusText);
+        if(shipment.getLabel().length()>0) {
+            status += shipment.getLabel() + "\n";
+        }
         if(shipment.getTracks().size() == 0) {
-            statusText.setText(context.getString(R.string.invalid));
+            status += context.getString(R.string.invalid);
         } else {
             if(shipment.getStatus() == Status.DELIVERED) {
-                statusText.setText(shipment.getDelivered().toLocaleString());
+                status += shipment.getDelivered().toLocaleString();
             } else {
-                statusText.setText(shipment.getSent().toLocaleString());
+                status += shipment.getSent().toLocaleString();
             }
         }
+        statusText.setText(status);
 
         // set courier logo
         ImageView imageView = (ImageView)groupView.findViewById(R.id.imageView);

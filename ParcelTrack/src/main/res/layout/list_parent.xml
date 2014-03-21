@@ -5,12 +5,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/textView"
-        android:orientation="vertical" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView2"
+            android:background="@drawable/bookmark"
+            android:layout_marginLeft="@dimen/border_margin"
+            android:layout_marginRight="@dimen/border_margin"
+            android:visibility="invisible" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/textView"
+            android:orientation="vertical" />
+
+    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -21,11 +37,12 @@
             android:layout_height="wrap_content"
             android:id="@+id/statusText"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:layout_marginLeft="@dimen/tab_margin"
+            android:layout_marginLeft="20dp"
             android:layout_alignParentBottom="false"
             android:layout_alignParentStart="false"
             android:gravity="bottom"
-            android:layout_alignBottom="@+id/imageView" />
+            android:layout_alignBottom="@+id/imageView"
+            android:layout_marginTop="@dimen/tab_margin" />
 
         <ImageView
             android:layout_width="wrap_content"

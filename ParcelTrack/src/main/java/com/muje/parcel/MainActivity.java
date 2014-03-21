@@ -155,41 +155,76 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+
         ExpandableListView.ExpandableListContextMenuInfo info = (ExpandableListView.ExpandableListContextMenuInfo)item.getMenuInfo();
         int type = ExpandableListView.getPackedPositionType(info.packedPosition);
-        switch(item.getItemId()) {
-            case R.id.action_update:
-                if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
-                    selectedIndex = ExpandableListView.getPackedPositionGroup(info.packedPosition);
-                    ArrayList<Shipment> shipments = manager.getShipments();
-                    refreshNo = shipments.get(selectedIndex).getConsignmentNo();
+        if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
 
-                    runnables = new Runnable() {
+            selectedIndex = ExpandableListView.getPackedPositionGroup(info.packedPosition);
+            ArrayList<Shipment> shipments = manager.getShipments();
+
+            switch(item.getItemId()) {
+                // Add annotation
+                case R.id.action_annotate:
+                    final Shipment shipment1 = shipments.get(selectedIndex);
+
+                    AlertDialog.Builder prompt = new AlertDialog.Builder(this);
+                    prompt.setTitle(getString(R.string.annotation_title));
+                    prompt.setMessage(getString(R.string.annotation_summary));
+                    final EditText input = new EditText(this);
+                    prompt.setView(input);
+                    prompt.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                         @Override
-                        public void run() {
-                            manager.refresh(selectedIndex, refreshNo);
-                            runOnUiThread(returnRes);
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            String value = input.getText().toString();
+                            shipment1.setLabel(value);
+                            Log.d("DEBUG", "Add " + shipment1.getLabel() + " to " + shipment1.getConsignmentNo());
+                            manager.update(shipment1);
+                            rebind();
                         }
-                    };
+                    });
+                    prompt.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
 
-                    Thread thread = new Thread(null, runnables, "Processing");
-                    thread.start();
+                        }
+                    });
+                    prompt.show();
 
-                    dialog = ProgressDialog.show(this, "Please wait", "Retrieving data...", true);
-                }
-                return true;
-            case R.id.action_delete:
-                if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
-                    int position = ExpandableListView.getPackedPositionGroup(info.packedPosition);
-                    ArrayList<Shipment> shipments = manager.getShipments();
-                    String consignmentNo = shipments.get(position).getConsignmentNo();
-                    manager.delete(position, consignmentNo);
+                    return true;
+
+                // save time to only refresh incomplete parcel
+                case R.id.action_update:
+                    if(shipments.get(selectedIndex).getStatus() != Status.DELIVERED) {
+                        refreshNo = shipments.get(selectedIndex).getConsignmentNo();
+
+                        runnables = new Runnable() {
+                            @Override
+                            public void run() {
+                                manager.refresh(selectedIndex, refreshNo);
+                                runOnUiThread(returnRes);
+                            }
+                        };
+
+                        Thread thread = new Thread(null, runnables, "Processing");
+                        thread.start();
+
+                        dialog = ProgressDialog.show(this, "Please wait", "Retrieving data...", true);
+                    }
+                    return true;
+
+                case R.id.action_delete:
+                    String consignmentNo = shipments.get(selectedIndex).getConsignmentNo();
+                    manager.delete(selectedIndex, consignmentNo);
                     rebind();
-                }
-                return true;
-            default:
-                return super.onContextItemSelected(item);
+                    return true;
+
+                default:
+                    return super.onContextItemSelected(item);
+            }
         }
+
+        return true;
     }
 
     @Override

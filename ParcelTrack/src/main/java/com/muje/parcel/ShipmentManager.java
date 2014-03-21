@@ -23,9 +23,10 @@ public class ShipmentManager {
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private static final String TABLE_SHIPMENTS = "Shipments";
     private static final String TABLE_TRACKS = "Tracks";
-    private static final String SQL_SELECT_ALL_SHIPMENTS = "SELECT * FROM Shipments;";
+    private static final String SQL_SELECT_ALL_SHIPMENTS = "SELECT * FROM Shipments";
     private static final String SQL_SELECT_SHIPMENT_ID = "SELECT Id FROM Shipments WHERE Number = ?";
-    private static final String SQL_SELECT_TRACKS = "SELECT Tracks.*, Shipments.Number FROM Tracks JOIN Shipments ON Tracks.ShipmentId=Shipments.Id WHERE Shipments.Number = ?;";
+    private static final String SQL_UPDATE_SHIPMENT = "UPDATE Shipments SET Label = ? WHERE Number = ?";
+    private static final String SQL_SELECT_TRACKS = "SELECT Tracks.*, Shipments.Number FROM Tracks JOIN Shipments ON Tracks.ShipmentId=Shipments.Id WHERE Shipments.Number = ?";
     private static final String SQL_DELETE_ALL_TRACKS = "DELETE FROM Tracks";
     private static final String SQL_DELETE_ALL_SHIPMENTS = "DELETE FROM Shipments";
 
@@ -45,23 +46,10 @@ public class ShipmentManager {
         cursor.moveToFirst();
         while(!cursor.isAfterLast()) {
             String consignmentNo = cursor.getString(1);
-            Status status = Status.INVALID;
-            int i = cursor.getInt(2);
-            switch(i) {
-                case 1:
-                    status = Status.SENT;
-                    break;
-                case 2:
-                    status = Status.WIP;
-                    break;
-                case 3:
-                    status = Status.DELIVERED;
-                    break;
-            }
-
-            Shipment shipment = new Shipment(consignmentNo, status);
+            Shipment shipment = new Shipment(consignmentNo);
+            String label = cursor.getString(2);
+            shipment.setLabel(label);
             shipments.add(0,shipment);
-
             cursor.moveToNext();
         }
         cursor.close();
@@ -108,19 +96,11 @@ public class ShipmentManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        int i = 0;
-        if(shipment.getStatus().equals(Status.SENT)) {
-            i = 1;
-        } else if(shipment.getStatus().equals(Status.WIP)) {
-            i = 2;
-        } else if(shipment.getStatus().equals(Status.DELIVERED)) {
-            i = 3;
-        }
 
         // insert shipment header into database
         ContentValues values = new ContentValues();
         values.put("Number", shipment.getConsignmentNo());
-        values.put("Status", i);
+        values.put("Label", shipment.getLabel());
         long id = database.insert(TABLE_SHIPMENTS, null, values);
 
         // Dump tracks details into database
@@ -135,6 +115,24 @@ public class ShipmentManager {
             database.insert(TABLE_TRACKS, null, values);
         }
         this.shipments.add(0,shipment);
+    }
+
+    /**
+     * Update specific shipment in collection and database.
+     * @param shipment
+     */
+    public void update(Shipment shipment) {
+        for(Shipment s: this.shipments) {
+            if(s.getConsignmentNo().equals(shipment.getConsignmentNo())) {
+                s = shipment;
+                break;
+            }
+        }
+
+        ContentValues values = new ContentValues();
+        values.put("Label", shipment.getLabel());
+        database.update(TABLE_SHIPMENTS, values, "Number = ?", new String[] {shipment.getConsignmentNo()});
+        //database.rawQuery(SQL_UPDATE_SHIPMENT, new String[] { shipment.getLabel(), shipment.getConsignmentNo()});
     }
     public void delete(int i, String consignmentNo) {
 

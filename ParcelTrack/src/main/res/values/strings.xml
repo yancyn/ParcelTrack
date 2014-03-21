@@ -10,7 +10,12 @@
     <string name="are_you_sure">Are you sure?"</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
 
+    <string name="action_annotate">Add Label</string>
+    <string name="annotation_title">Add Label</string>
+    <string name="annotation_summary">Please enter your label</string>
     <string name="action_update">Update</string>
     <string name="action_delete">Delete</string>
     <string name="action_update_all">Refresh All</string>
@@ -19,6 +24,7 @@
 
     <string name="pref_notification">Notification</string>
     <string name="notification_hour">Hour</string>
+    <string name="notification_hour_title">Interval Time</string>
     <string name="notification_title">Enable</string>
     <string name="notification_summary">Auto update every interval hour</string>
     <string name="title_activity_about">About</string>
