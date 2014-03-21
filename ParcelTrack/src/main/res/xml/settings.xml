@@ -3,14 +3,14 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
         android:title="@string/pref_notification">
+        <SwitchPreference
+            android:summary="@string/notification_title"
+            android:key="prefNotificationEnabled" />
         <EditTextPreference
             android:title="@string/notification_hour"
             android:summary="@string/notification_summary"
             android:inputType="number"
             android:key="prefNotificationHour" />
-        <SwitchPreference
-            android:summary="@string/pref_notification"
-            android:key="prefNotificationEnabled" />
     </PreferenceCategory>
 
     <PreferenceCategory
