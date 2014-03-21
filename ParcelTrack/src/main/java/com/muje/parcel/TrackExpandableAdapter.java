@@ -158,7 +158,6 @@ public class TrackExpandableAdapter extends BaseExpandableListAdapter implements
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
 
-            // TODO: Add filter on multiple consignment number separated by comma
             FilterResults result = new FilterResults();
             List<Shipment> filteredItems = new ArrayList<Shipment>();
             if(charSequence == null)
@@ -166,9 +165,13 @@ public class TrackExpandableAdapter extends BaseExpandableListAdapter implements
             else if(charSequence.length() == 0)
                 filteredItems = originalList;// headerList;
             else {
-                for(Shipment shipment: headerList) {
-                    if(shipment.getConsignmentNo().contains(charSequence)) {
-                        filteredItems.add(shipment);
+                String[] consignments = charSequence.toString().split(",");
+                for(Shipment shipment: originalList) {
+                    for(String consignment: consignments) {
+                        consignment = consignment.trim();
+                        if(shipment.getConsignmentNo().contains(consignment)) {
+                            filteredItems.add(shipment);
+                        }
                     }
                 }
             }
