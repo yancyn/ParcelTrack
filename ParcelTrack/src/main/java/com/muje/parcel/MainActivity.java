@@ -48,6 +48,7 @@ public class MainActivity extends ActionBarActivity {
     private TrackExpandableAdapter adapter = null;
 
     private EditText editText1;
+    private ImageButton crossButton = null;
     private ProgressDialog dialog = null;
     private ShipmentManager manager = null;
     private Runnable runnables;
@@ -65,13 +66,14 @@ public class MainActivity extends ActionBarActivity {
 
 
         // add clear all search text
-        ImageButton button2 = (ImageButton)findViewById(R.id.button2);
-        button2.setOnClickListener(new View.OnClickListener() {
+        crossButton = (ImageButton)findViewById(R.id.button2);
+        crossButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 editText1.setText("");
             }
         });
+        crossButton.setVisibility(View.GONE);
 
         editText1 = (EditText)findViewById(R.id.editText1);
         editText1.setOnKeyListener(editText1OnKey);
@@ -331,6 +333,11 @@ public class MainActivity extends ActionBarActivity {
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
             Log.d("DEBUG", "Filtering: " + charSequence);
+            if(charSequence.length() > 0) {
+                crossButton.setVisibility(View.VISIBLE);
+            } else {
+                crossButton.setVisibility(View.GONE);
+            }
             adapter.getFilter().filter(charSequence);
         }
 
