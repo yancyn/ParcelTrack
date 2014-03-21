@@ -13,6 +13,8 @@ import java.util.regex.Pattern;
  */
 public class Shipment {
 
+    private final String[] DELIVERED_KEYWORDS = new String[]{ "success", "delivered"};
+
     private Courier courier;
     private String consignmentNo;
     public String getConsignmentNo() { return this.consignmentNo; }
@@ -153,12 +155,11 @@ public class Shipment {
                 if(sent == null) sent = track.getDate();
                 if(track.getDate().compareTo(sent) < 0) sent = track.getDate();
 
-                if(track.getDescription().toLowerCase().contains("success")) {
-                    this.status = Status.DELIVERED;
-                    this.delivered = track.getDate();
-                } else if(track.getDescription().toLowerCase().contains("delivered")) {
-                    this.status = Status.DELIVERED;
-                    this.delivered = track.getDate();
+                for(String keyword: DELIVERED_KEYWORDS) {
+                    if(track.getDescription().toLowerCase().contains(keyword)) {
+                        this.status = Status.DELIVERED;
+                        this.delivered = track.getDate();
+                    }
                 }
             }
         }
