@@ -14,13 +14,18 @@ import java.util.regex.Pattern;
  *
  */
 public abstract class Courier {
-	public Courier() {this.tracks = new ArrayList<Track>();}
+	public Courier() {
+        this.name = "";
+        this.consignmentNo = "";
+        this.tracks = new ArrayList<Track>();
+    }
 	protected String name;
 	/**
 	 * Return name of the provider after trace the consignment no.
 	 * @return
 	 */
 	public String getProviderName() { return this.name;}
+    protected String consignmentNo;
 	/**
 	 * Return resource id for logo image.
 	 * @return
