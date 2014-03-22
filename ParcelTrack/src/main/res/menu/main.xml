@@ -4,7 +4,6 @@
     tools:context=".MainActivity" >
 
     <item android:id="@+id/action_export"
-        android:visible="false"
         android:title="@string/action_export"
         android:orderInCategory="10"
         app:showAsAction="never" />
