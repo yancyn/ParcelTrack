@@ -2,6 +2,8 @@ package com.muje.parcel;
 
 import android.util.Log;
 
+import com.muje.util.JsonHelper;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -16,7 +18,10 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -94,44 +99,12 @@ public class Fedex extends Courier {
 
         return httpClient.execute(httpPost);
     }
-    private void getValueFromJSON(JSONObject json, String key) throws Exception {
 
-        Iterator iter = json.keys();
-        while(iter.hasNext()) {
-            String k = (String)iter.next();
-            Object obj = json.get(k);
-            Log.d("DEBUG", k + ": " + obj);
-            if(k.equals(key)) {
-                holder = obj;
-                return;
-            }
-
-            if(obj instanceof JSONObject) {
-                getValueFromJSON((JSONObject)obj, key);
-            } else if(obj instanceof JSONArray) {
-                getValueFromJSONArray((JSONArray)obj, key);
-            }
-        }
-    }
-    private void getValueFromJSONArray(JSONArray array, String key) throws Exception {
-
-        for(int i=0;i<array.length();i++) {
-            Object obj = array.get(i);
-            if(obj instanceof JSONObject) {
-                getValueFromJSON((JSONObject)obj, key);
-            } else if(obj instanceof JSONArray) {
-                getValueFromJSONArray((JSONArray)obj, key);
-            }
-        }
-    }
-
-    private Object holder = null;
     @Override
     public void trace(String consignmentNo) throws Exception {
         this.consignmentNo = consignmentNo;
         this.tracks.clear();
 
-        // TODO: Fedex trace logic
         HttpResponse response = postJson("https://www.fedex.com/trackingCal/track");
         HttpEntity entity = response.getEntity();
         InputStream inputStream = entity.getContent();
@@ -146,8 +119,39 @@ public class Fedex extends Courier {
         result = sb.toString();
 
         JSONObject resultJson = new JSONObject(result);
-        getValueFromJSON(resultJson, "shipperCity");
-        Log.d("DEBUG", "Shipper City: " + holder);
+        JsonHelper jsonHelper = new JsonHelper(resultJson);
+
+        String origin = jsonHelper.getValue("originCity") + ", " + jsonHelper.getValue("originStateCD") + " " + jsonHelper.getValue("originCntryCD");
+        Object sent = jsonHelper.getValue("shipDt");
+        this.tracks.add(new Track(toDate(sent.toString()), origin, ""));
+
+        Object status = jsonHelper.getValue("keyStatusCD");
+        Object destination = jsonHelper.getValue("destLocationCity") + ", " + jsonHelper.getValue("destLocationStateCD") + " " + jsonHelper.getValue("destLocationCntryCD");
+        // status = delivered
+        if(status != null && status.toString().equals("DL")) {
+            Object deliveredDate = jsonHelper.getValue("actDeliveryDt");
+            Object desc = jsonHelper.getValue("statusWithDetails");
+            this.tracks.add(
+                    new Track(toDate(deliveredDate.toString()), destination.toString(), desc.toString())
+            );
+        }
+    }
+
+    /**
+     * Convert to correct date object.
+     * http://tonysilvestri.com/blog/2010/09/27/android-converting-a-date-string-to-date-object/
+     * @param date
+     * @return
+     * @throws java.text.ParseException
+     */
+    private Date toDate(String date) throws ParseException {
+
+        //convert 2013-12-06T16:19:00+00:00
+        Date output = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZZZZZ");
+        output = dateFormat.parse(date);
+
+        return output;
     }
 
 }
