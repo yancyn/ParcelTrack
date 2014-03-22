@@ -63,21 +63,21 @@ public class Poslaju extends Courier {
 		
 		String date = "";
 		String location = "";
-		String status = "";
+		String desc = "";
 		for (int i = 0; i < lines.size(); i++) {
 			//Log.d("DEBUG", lines.get(i));
 			switch (i % 3) {
 			case 0:
 				if (location.length() > 0) {
-					this.tracks.add(new Track(toDate(date), location, status));
+					this.tracks.add(new Track(toDate(date), location, desc));
 					date = "";
 					location = "";
-					status = "";
+					desc = "";
 				}
 				date = getCellValue(lines.get(i));
 				break;
 			case 1:
-				status = getCellValue(lines.get(i));
+				desc = getCellValue(lines.get(i));
 				break;
 			case 2:
 				location = getCellValue(lines.get(i));
