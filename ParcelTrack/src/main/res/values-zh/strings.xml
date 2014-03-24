@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">包裹查寻</string>
+    <string name="hello_world">嗨世界!</string>
+    <string name="comma">,\u0020</string>
+    <string name="hour">\u0020小时</string>
+    <string name="invalid">未找到!</string>
+    <string name="item_delivered">\u0020件已收到</string>
+    <string name="are_you_sure">确定?"</string>
+    <string name="yes">是</string>
+    <string name="no">否</string>
+    <string name="ok">好</string>
+    <string name="cancel">取消</string>
+
+    <string name="action_open_link">打开浏览器</string>
+    <string name="action_annotate">添加标签</string>
+    <string name="annotation_title">添加标签</string>
+    <string name="annotation_summary">请输入您的标签</string>
+    <string name="action_update">更新</string>
+    <string name="action_delete">清除</string>
+    <string name="action_export">输出全部</string>
+    <string name="action_update_all">刷新全部</string>
+    <string name="action_clear_all">清除记录</string>
+    <string name="action_settings">设定</string>
+
+    <string name="pref_notification">通知</string>
+    <string name="notification_hour">小时</string>
+    <string name="notification_hour_title">间隔时间</string>
+    <string name="notification_title">启用</string>
+    <string name="notification_summary">自动更新时间</string>
+    <string name="title_activity_about">关于</string>
+    <string name="help">帮助</string>
+    <string name="contact">联系</string>
+    <string name="contact_email">yancyn@gmail.com</string>
+    <string name="version">版本</string>
+
+    <string-array name="carriers">
+        <item>\u0020</item>
+        <item>CityLink</item>
+        <item>GDex</item>
+        <item>FedEx</item>
+        <item>Poslaju</item>
+    </string-array>
+
+</resources>
