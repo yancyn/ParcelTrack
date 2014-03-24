@@ -33,6 +33,12 @@ public class Fedex extends Courier {
 
     public Fedex() {
         this.name = "fedex";
+        this.url = "https://www.fedex.com/fedextrack/index.html";
+    }
+    public Fedex(String consignmentNo) {
+        this.name = "fedex";
+        this.consignmentNo = consignmentNo;
+        this.url = String.format("https://www.fedex.com/fedextrack/index.html?tracknumbers=%s", consignmentNo);
     }
 
     private Map<String, Object> composeDataJSON() {
@@ -102,7 +108,9 @@ public class Fedex extends Courier {
 
     @Override
     public void trace(String consignmentNo) throws Exception {
+
         this.consignmentNo = consignmentNo;
+        this.url = String.format("https://www.fedex.com/fedextrack/index.html?tracknumbers=%s", consignmentNo);
         this.tracks.clear();
 
         HttpResponse response = postJson("https://www.fedex.com/trackingCal/track");

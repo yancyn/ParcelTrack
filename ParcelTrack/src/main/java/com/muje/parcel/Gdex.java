@@ -21,6 +21,14 @@ import java.util.regex.Pattern;
 public class Gdex extends Courier {
     public Gdex() {
         this.name = "gdex";
+        this.url = "http://intranet.gdexpress.com/official/etracking.php";
+    }
+    public Gdex(String consignmentNo) {
+        this.name = "gdex";
+        this.consignmentNo = consignmentNo;
+        this.url = String.format(
+                "http://intranet.gdexpress.com/official/etracking.php?capture=%s&Submit=Track",
+                consignmentNo);
     }
     @Override
     public void trace(String consignmentNo) throws Exception {
@@ -30,11 +38,11 @@ public class Gdex extends Courier {
         // send http request
         String response = "";
         String line = "";
-        String queryString = String.format(
+        this.url = String.format(
                 "http://intranet.gdexpress.com/official/etracking.php?capture=%s&Submit=Track",
                 consignmentNo);
-        URL url = new URL(queryString);
-        URLConnection connection = url.openConnection();
+        URL webpage = new URL(this.url);
+        URLConnection connection = webpage.openConnection();
         BufferedReader reader = new BufferedReader(new InputStreamReader(
                 connection.getInputStream()));
         while ((line = reader.readLine()) != null) {
@@ -65,7 +73,7 @@ public class Gdex extends Courier {
         }
 
         String date = "";
-        String status = "";
+        String desc = "";
         for (int i = 0; i < lines.size(); i++) {
             switch (i % 4) {
                 case 2:
@@ -78,11 +86,11 @@ public class Gdex extends Courier {
                     }
                     break;
                 case 3:
-                    status = getCellValue(lines.get(i));
+                    desc = getCellValue(lines.get(i));
                     if(date.length() > 0) {
-                        this.tracks.add(new Track(toDate(date), "", status));
+                        this.tracks.add(new Track(toDate(date), "", desc));
                         date = "";
-                        status = "";
+                        desc = "";
                     }
                     break;
             }

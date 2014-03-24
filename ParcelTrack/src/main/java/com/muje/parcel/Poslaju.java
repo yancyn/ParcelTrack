@@ -19,7 +19,13 @@ import java.util.regex.Pattern;
 public class Poslaju extends Courier {
 	public Poslaju() {
 		this.name = "poslaju";
+        this.url = "http://www.poslaju.com.my/track.aspx";
 	}
+    public Poslaju(String consignmentNo) {
+        this.name = "poslaju";
+        this.consignmentNo = consignmentNo;
+        this.url = String.format("http://www.poslaju.com.my/track.aspx?connoteno=%s", consignmentNo);
+    }
 
 	@Override
 	public void trace(String consignmentNo) throws Exception {
@@ -28,11 +34,11 @@ public class Poslaju extends Courier {
 		// send http request
 		String response = "";
 		String line = "";
-		String queryString = String.format(
+		this.url = String.format(
 				"http://www.poslaju.com.my/track.aspx?connoteno=%s",
 				consignmentNo);
-		URL url = new URL(queryString);
-		URLConnection connection = url.openConnection();
+		URL webpage = new URL(this.url);
+		URLConnection connection = webpage.openConnection();
 		BufferedReader reader = new BufferedReader(new InputStreamReader(
 				connection.getInputStream()));
 		while ((line = reader.readLine()) != null) {

@@ -29,7 +29,12 @@ import android.util.Log;
 public class Citylink extends Courier {
 	public Citylink() {
 		this.name = "citylink";
+        this.url = "http://www.citylinkexpress.com/shipmentTrack/index.php";
 	}
+    public Citylink(String consignmentNo) {
+        this.name = "citylink";
+        this.url = "http://www.citylinkexpress.com/shipmentTrack/index.php";
+    }
 
 	@Override
 	public void trace(String consignmentNo) throws Exception {
@@ -39,10 +44,10 @@ public class Citylink extends Courier {
 		//get response content
 		String response = "";
 		String line = "";
-		String url = "http://www.citylinkexpress.com/shipmentTrack/index.php";
+		String webpage = "http://www.citylinkexpress.com/shipmentTrack/index.php";
 		
 		HttpClient httpClient = new DefaultHttpClient();
-		HttpPost httpPost = new HttpPost(url);
+		HttpPost httpPost = new HttpPost(webpage);
 		
 		List<NameValuePair> pairs = new ArrayList<NameValuePair>(4);
 		pairs.add(new BasicNameValuePair("Submit.x","27"));

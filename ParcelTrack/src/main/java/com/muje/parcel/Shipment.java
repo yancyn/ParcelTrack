@@ -55,6 +55,18 @@ public class Shipment {
         }
     }
 
+    /**
+     * Return website url.
+     * @return
+     */
+    public String getUrl() {
+        if(this.courier == null) {
+            return "";
+        } else {
+            return this.courier.getUrl();
+        }
+    }
+
     public Shipment(String consignmentNo) {
 
         this.status = Status.INVALID;
@@ -68,24 +80,24 @@ public class Shipment {
             e.printStackTrace();
         }
     }
-    private void locateCourier() throws Exception  {
+    protected void locateCourier() throws Exception  {
 
         //determine which Courier to be use
         //check is poslaju's parcel ie. EM046999084MY
         if(consignmentNo.matches("[a-zA-Z]{2}[0-9]{9}[a-zA-Z]{2}")) {
-            courier = new Poslaju();
+            courier = new Poslaju(this.consignmentNo);
         }
         //check is citylink's parcel ie. 060301203057634
         else if(consignmentNo.matches("[0-9]{15}")) {
-            courier = new Citylink();
+            courier = new Citylink(this.consignmentNo);
         }
         //check is gdex's parcel ie. 4340560475
         else if(consignmentNo.matches("[0-9]{10}")) {
-            courier = new Gdex();
+            courier = new Gdex(this.consignmentNo);
         }
         //check is FedEx's parcel ie. 797337230186
         else if(consignmentNo.matches("[0-9]{12}")) {
-            courier = new Fedex();
+            courier = new Fedex(this.consignmentNo);
         }
     }
     /**

@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
@@ -164,8 +165,16 @@ public class MainActivity extends ActionBarActivity {
 
             selectedIndex = ExpandableListView.getPackedPositionGroup(info.packedPosition);
             ArrayList<Shipment> shipments = manager.getShipments();
+            Shipment shipment = shipments.get(selectedIndex);
 
             switch(item.getItemId()) {
+                //open link in browser
+                case R.id.action_open_link:
+                    Log.d("DEBUG", "Open link in browser");
+                    Intent browser = new Intent(Intent.ACTION_VIEW, Uri.parse(shipment.getUrl()));
+                    startActivity(browser);
+                    return true;
+
                 // Add annotation
                 case R.id.action_annotate:
                     final Shipment shipment1 = shipments.get(selectedIndex);

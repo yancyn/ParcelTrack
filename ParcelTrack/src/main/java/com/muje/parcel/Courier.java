@@ -19,6 +19,11 @@ public abstract class Courier {
         this.consignmentNo = "";
         this.tracks = new ArrayList<Track>();
     }
+    public Courier(String consignmentNo) {
+        this.name = "";
+        this.consignmentNo = consignmentNo;
+        this.tracks = new ArrayList<Track>();
+    }
 	protected String name;
 	/**
 	 * Return name of the provider after trace the consignment no.
@@ -55,6 +60,16 @@ public abstract class Courier {
 //		this.destination = destination;
 //	}
 //	public String getDestination() {return this.destination;}
+
+    protected String url;
+
+    /**
+     * Return tracking number in original courier website.
+     * @return
+     */
+    public String getUrl() {
+        return this.url;
+    }
 	
 	protected ArrayList<Track> tracks;
 	/**
