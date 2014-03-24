@@ -62,7 +62,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
                     Intent intent = new Intent(Intent.ACTION_SEND);
                     intent.putExtra(Intent.EXTRA_EMAIL, new String[]{getResources().getString(R.string.contact_email)});
                     intent.setType("message/rfc822");//"application/octet-stream");
-                    startActivity(Intent.createChooser(intent, "Sending email"));
+                    startActivity(Intent.createChooser(intent, getString(R.string.email_title).toString()));
                     return false;
                 }
             });

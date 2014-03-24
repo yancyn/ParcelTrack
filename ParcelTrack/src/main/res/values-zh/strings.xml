@@ -23,6 +23,10 @@
     <string name="action_update_all">刷新全部</string>
     <string name="action_clear_all">清除记录</string>
     <string name="action_settings">设定</string>
+    <string name="processing">处理中</string>
+    <string name="wait_title">请稍候</string>
+    <string name="processing_content">提取数据...</string>
+    <string name="email_title">发送电子邮件</string>
 
     <string name="pref_notification">通知</string>
     <string name="notification_hour">小时</string>

@@ -12,6 +12,10 @@
     <string name="no">No</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+    <string name="processing">Processing</string>
+    <string name="wait_title">Please wait</string>
+    <string name="processing_content">Retrieving data...</string>
+    <string name="email_title">Sending email</string>
 
     <string name="action_open_link">Open in Browser</string>
     <string name="action_annotate">Add Label</string>

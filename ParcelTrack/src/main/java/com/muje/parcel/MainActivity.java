@@ -83,8 +83,6 @@ public class MainActivity extends ActionBarActivity {
         ImageButton button1 = (ImageButton) findViewById(R.id.button1);
         button1.setOnClickListener(button1OnClick);
 
-        // TODO: Define carrier dropdownlist (spinner)
-
         //only need to declare once
         manager = new ShipmentManager(this);
         Map<Shipment, ArrayList<Track>> children = new HashMap<Shipment, ArrayList<Track>>();
@@ -219,10 +217,10 @@ public class MainActivity extends ActionBarActivity {
                             }
                         };
 
-                        Thread thread = new Thread(null, runnables, "Processing");
+                        Thread thread = new Thread(null, runnables, getString(R.string.processing));
                         thread.start();
 
-                        dialog = ProgressDialog.show(this, "Please wait", "Retrieving data...", true);
+                        dialog = ProgressDialog.show(this, getString(R.string.wait_title), getString(R.string.processing_content), true);
                     }
                     return true;
 
@@ -265,10 +263,10 @@ public class MainActivity extends ActionBarActivity {
                     }
                 };
 
-                Thread thread = new Thread(null, runnables, "Processing");
+                Thread thread = new Thread(null, runnables, getString(R.string.processing));
                 thread.start();
 
-                dialog = ProgressDialog.show(this, "Please wait", "Retrieving data...", true);
+                dialog = ProgressDialog.show(this, getString(R.string.wait_title), getString(R.string.processing_content), true);
                 return true;
             case R.id.action_clear_all:
                 // Clear all history
@@ -366,15 +364,26 @@ public class MainActivity extends ActionBarActivity {
                 searchText = editText1.getText().toString();
 
                 Spinner spinner = (Spinner) findViewById(R.id.spinner);
-                // TODO: spinner.getSelectedItem().toString() = "Poslaju"
                 trace(searchText);
+//                String carrier = spinner.getSelectedItem().toString().toLowerCase();
+//                if(carrier.length() == 0) {
+//
+//                } else if(carrier.equals("poslaju")) {
+//
+//                } else if(carrier.equals("fedex")) {
+//
+//                } else if(carrier.equals("citylink")) {
+//
+//                } else if(carrier.equals("gdex")) {
+//
+//                }
             }
         };
 
-        Thread thread = new Thread(null, runnables, "Processing");
+        Thread thread = new Thread(null, runnables, getString(R.string.processing));
         thread.start();
 
-        dialog = ProgressDialog.show(this, "Please wait", "Retrieving data...", true);
+        dialog = ProgressDialog.show(this, getString(R.string.wait_title), getString(R.string.processing_content), true);
     }
     private void trace(String consignmentNo) {
         if(!manager.isExist(consignmentNo)) {

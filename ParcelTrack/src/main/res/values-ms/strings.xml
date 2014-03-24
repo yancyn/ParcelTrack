@@ -12,6 +12,10 @@
     <string name="no">Bukan</string>
     <string name="ok">Baik</string>
     <string name="cancel">Batal</string>
+    <string name="processing">Sedang Proses</string>
+    <string name="wait_title">Sila Tunggu</string>
+    <string name="processing_content">Dapatkan data...</string>
+    <string name="email_title">Hantar E-mel</string>
 
     <string name="action_open_link">Buka dalam Laman Web</string>
     <string name="action_annotate">Tambah Label</string>
