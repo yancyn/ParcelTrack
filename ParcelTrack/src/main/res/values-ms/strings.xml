@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Bungkusan Carian</string>
+    <string name="hello_world">Helo Dunia!</string>
+    <string name="comma">,\u0020</string>
+    <string name="hour">\u0020jam</string>
+    <string name="invalid">Tidak wujud!</string>
+    <string name="item_delivered">\u0020item diterima</string>
+    <string name="are_you_sure">Anda Pasti?"</string>
+    <string name="yes">Ya</string>
+    <string name="no">Bukan</string>
+    <string name="ok">Baik</string>
+    <string name="cancel">Batal</string>
+
+    <string name="action_open_link">Buka dalam Laman Web</string>
+    <string name="action_annotate">Tambah Label</string>
+    <string name="annotation_title">Tambah Label</string>
+    <string name="annotation_summary">Sila masukkan label anda</string>
+    <string name="action_update">Kemaskini</string>
+    <string name="action_delete">Padam</string>
+    <string name="action_export">Eksport Semau</string>
+    <string name="action_update_all">Kemaskini Semua</string>
+    <string name="action_clear_all">Hilangkan Sejarah</string>
+    <string name="action_settings">Setting</string>
+
+    <string name="pref_notification">Pemberitahuan</string>
+    <string name="notification_hour">Jam</string>
+    <string name="notification_hour_title">Masa Selang</string>
+    <string name="notification_title">On</string>
+    <string name="notification_summary">Automatik kemaskini item dalam selang masa</string>
+    <string name="title_activity_about">Mengenali</string>
+    <string name="help">Bantuan</string>
+    <string name="contact">Hubungi</string>
+    <string name="contact_email">yancyn@gmail.com</string>
+    <string name="version">Versi</string>
+
+    <string-array name="carriers">
+        <item>\u0020</item>
+        <item>CityLink</item>
+        <item>GDex</item>
+        <item>FedEx</item>
+        <item>Poslaju</item>
+    </string-array>
+
+</resources>
