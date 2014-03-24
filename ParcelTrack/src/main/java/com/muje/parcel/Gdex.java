@@ -1,11 +1,5 @@
 package com.muje.parcel;
 
-import android.util.Log;
-
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -18,7 +12,7 @@ import java.util.regex.Pattern;
 /**
  * Created by yeang-shing.then on 3/10/14.
  */
-public class Gdex extends Courier {
+public class Gdex extends Carrier {
     public Gdex() {
         this.name = "gdex";
         this.url = "http://intranet.gdexpress.com/official/etracking.php";

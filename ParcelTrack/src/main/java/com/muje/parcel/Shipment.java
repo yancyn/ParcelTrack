@@ -1,21 +1,18 @@
 package com.muje.parcel;
 
 import android.util.Log;
-import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
- * Facade pattern for Courier class.
+ * Facade pattern for Carrier class.
  */
 public class Shipment {
 
     private final String[] DELIVERED_KEYWORDS = new String[]{ "success", "delivered"};
 
-    private Courier courier;
+    private Carrier courier;
     private String consignmentNo;
     public String getConsignmentNo() { return this.consignmentNo; }
     private Status status;
@@ -82,7 +79,7 @@ public class Shipment {
     }
     protected void locateCourier() throws Exception  {
 
-        //determine which Courier to be use
+        //determine which Carrier to be use
         //check is poslaju's parcel ie. EM046999084MY
         if(consignmentNo.matches("[a-zA-Z]{2}[0-9]{9}[a-zA-Z]{2}")) {
             courier = new Poslaju(this.consignmentNo);

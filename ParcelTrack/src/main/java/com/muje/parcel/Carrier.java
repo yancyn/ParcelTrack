@@ -8,18 +8,18 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Courier abstract class
+ * Carrier abstract class
  * TODO: sort track collection in descending for convenient reading.
  * @author yeang-shing.then
  *
  */
-public abstract class Courier {
-	public Courier() {
+public abstract class Carrier {
+	public Carrier() {
         this.name = "";
         this.consignmentNo = "";
         this.tracks = new ArrayList<Track>();
     }
-    public Courier(String consignmentNo) {
+    public Carrier(String consignmentNo) {
         this.name = "";
         this.consignmentNo = consignmentNo;
         this.tracks = new ArrayList<Track>();

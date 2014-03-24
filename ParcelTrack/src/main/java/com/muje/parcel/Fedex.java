@@ -1,7 +1,5 @@
 package com.muje.parcel;
 
-import android.util.Log;
-
 import com.muje.util.JsonHelper;
 
 import org.apache.http.HttpEntity;
@@ -12,7 +10,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -23,13 +20,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
  * Created by yeang-shing.then on 3/21/14.
  */
-public class Fedex extends Courier {
+public class Fedex extends Carrier {
 
     public Fedex() {
         this.name = "fedex";

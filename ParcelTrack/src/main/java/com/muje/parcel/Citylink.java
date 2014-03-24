@@ -19,14 +19,12 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
-import android.util.Log;
-
 /**
  * Parser for Citylink shipment logic.
  * @author yeang-shing.then
  *
  */
-public class Citylink extends Courier {
+public class Citylink extends Carrier {
 	public Citylink() {
 		this.name = "citylink";
         this.url = "http://www.citylinkexpress.com/shipmentTrack/index.php";

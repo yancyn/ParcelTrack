@@ -13,7 +13,7 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
 
-    <string name="action_open_link">Open Link in Browser</string>
+    <string name="action_open_link">Open in Browser</string>
     <string name="action_annotate">Add Label</string>
     <string name="annotation_title">Add Label</string>
     <string name="annotation_summary">Please enter your label</string>

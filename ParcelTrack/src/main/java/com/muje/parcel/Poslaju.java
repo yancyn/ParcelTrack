@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
  * @author yeang-shing.then
  *
  */
-public class Poslaju extends Courier {
+public class Poslaju extends Carrier {
 	public Poslaju() {
 		this.name = "poslaju";
         this.url = "http://www.poslaju.com.my/track.aspx";
