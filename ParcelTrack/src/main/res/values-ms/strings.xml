@@ -19,7 +19,7 @@
     <string name="annotation_summary">Sila masukkan label anda</string>
     <string name="action_update">Kemaskini</string>
     <string name="action_delete">Padam</string>
-    <string name="action_export">Eksport Semau</string>
+    <string name="action_export">Eksport Semua</string>
     <string name="action_update_all">Kemaskini Semua</string>
     <string name="action_clear_all">Hilangkan Sejarah</string>
     <string name="action_settings">Setting</string>

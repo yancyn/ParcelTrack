@@ -27,6 +27,7 @@ import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
@@ -65,7 +66,6 @@ public class MainActivity extends ActionBarActivity {
         NotificationManager nManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
         nManager.cancelAll();
 
-
         // add clear all search text
         crossButton = (ImageButton)findViewById(R.id.button2);
         crossButton.setOnClickListener(new View.OnClickListener() {
@@ -82,6 +82,8 @@ public class MainActivity extends ActionBarActivity {
 
         ImageButton button1 = (ImageButton) findViewById(R.id.button1);
         button1.setOnClickListener(button1OnClick);
+
+        // TODO: Define carrier dropdownlist (spinner)
 
         //only need to declare once
         manager = new ShipmentManager(this);
@@ -362,6 +364,9 @@ public class MainActivity extends ActionBarActivity {
             public void run() {
                 EditText editText1 = (EditText) findViewById(R.id.editText1);
                 searchText = editText1.getText().toString();
+
+                Spinner spinner = (Spinner) findViewById(R.id.spinner);
+                // TODO: spinner.getSelectedItem().toString() = "Poslaju"
                 trace(searchText);
             }
         };

@@ -33,6 +33,13 @@
             android:id="@+id/button2"
             android:layout_gravity="center_vertical" />
 
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/carriers"
+            android:visibility="gone"
+            android:id="@+id/spinner" />
+
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
