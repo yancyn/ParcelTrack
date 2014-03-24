@@ -86,6 +86,9 @@ public class ShipmentManager {
         return false;
     }
     public void track(String consignmentNo) {
+        track(consignmentNo, "");
+    }
+    public void track(String consignmentNo, String label) {
 
         Log.d("DEBUG", "Not exist in database");
         Shipment shipment = new Shipment(consignmentNo);
@@ -95,6 +98,7 @@ public class ShipmentManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        shipment.setLabel(label);
 
         // insert shipment header into database
         ContentValues values = new ContentValues();
@@ -159,8 +163,9 @@ public class ShipmentManager {
      * Refresh all pending consignment no.
      */
     public void refresh(int i, String consignmentNo) {
+        String label = shipments.get(i).getLabel();
         delete(i, consignmentNo);
-        track(consignmentNo);
+        track(consignmentNo, label);
     }
     public void refreshAll() {
         int last = this.shipments.size() - 1;
