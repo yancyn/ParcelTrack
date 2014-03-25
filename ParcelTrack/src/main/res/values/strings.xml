@@ -40,10 +40,10 @@
     <string name="version">Version</string>
 
     <string-array name="carriers">
-        <item>\u0020</item>
+        <item></item>
         <item>CityLink</item>
-        <item>GDex</item>
         <item>FedEx</item>
+        <item>GDex</item>
         <item>Poslaju</item>
     </string-array>
 

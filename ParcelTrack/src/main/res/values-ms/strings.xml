@@ -39,12 +39,4 @@
     <string name="contact_email">yancyn@gmail.com</string>
     <string name="version">Versi</string>
 
-    <string-array name="carriers">
-        <item>\u0020</item>
-        <item>CityLink</item>
-        <item>GDex</item>
-        <item>FedEx</item>
-        <item>Poslaju</item>
-    </string-array>
-
 </resources>

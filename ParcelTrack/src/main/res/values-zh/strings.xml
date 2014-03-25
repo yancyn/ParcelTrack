@@ -18,14 +18,14 @@
     <string name="annotation_title">添加标签</string>
     <string name="annotation_summary">请输入您的标签</string>
     <string name="action_update">更新</string>
-    <string name="action_delete">清除</string>
+    <string name="action_delete">删除</string>
     <string name="action_export">输出全部</string>
     <string name="action_update_all">刷新全部</string>
-    <string name="action_clear_all">清除记录</string>
+    <string name="action_clear_all">删除记录</string>
     <string name="action_settings">设定</string>
     <string name="processing">处理中</string>
     <string name="wait_title">请稍候</string>
-    <string name="processing_content">提取数据...</string>
+    <string name="processing_content">提取数据…</string>
     <string name="email_title">发送电子邮件</string>
 
     <string name="pref_notification">通知</string>
@@ -39,12 +39,6 @@
     <string name="contact_email">yancyn@gmail.com</string>
     <string name="version">版本</string>
 
-    <string-array name="carriers">
-        <item>\u0020</item>
-        <item>CityLink</item>
-        <item>GDex</item>
-        <item>FedEx</item>
-        <item>Poslaju</item>
-    </string-array>
+    <!-- http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes -->
 
 </resources>
