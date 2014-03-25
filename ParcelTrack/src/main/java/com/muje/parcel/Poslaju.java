@@ -1,5 +1,7 @@
 package com.muje.parcel;
 
+import com.muje.util.HtmlParser;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -31,41 +33,11 @@ public class Poslaju extends Carrier {
 	public void trace(String consignmentNo) throws Exception {
 		this.tracks.clear();
 
-		// send http request
-		String response = "";
-		String line = "";
-		this.url = String.format(
-				"http://www.poslaju.com.my/track.aspx?connoteno=%s",
-				consignmentNo);
-		URL webpage = new URL(this.url);
-		URLConnection connection = webpage.openConnection();
-		BufferedReader reader = new BufferedReader(new InputStreamReader(
-				connection.getInputStream()));
-		while ((line = reader.readLine()) != null) {
-			response += line;
-			// Log.d("DEBUG",line);
-		}
-		reader.close();
-		
+		this.url = String.format("http://www.poslaju.com.my/track.aspx?connoteno=%s", consignmentNo);
 
-		// extract delivery html table
-		String table = "";
-		String regex = String.format("<TABLE.*id=\"%s\".*?>(.*?)</table>", consignmentNo);
-		Pattern p = Pattern.compile(regex);
-		Matcher m = p.matcher(response);
-		while (m.find()) {
-			table += m.group();
-		}
-		//Log.d("DEBUG", "filtered:" + table);
-
-		// dump into collection
-		ArrayList<String> lines = new ArrayList<String>();
-		regex = "<td.*?>(^\\s|.*?)</td>";
-		p = Pattern.compile(regex);
-		m = p.matcher(table);
-		while (m.find()) {
-			lines.add(m.group());
-		}
+        HtmlParser parser = new HtmlParser(this.url);
+        parser.getTable(String.format("<TABLE.*id=\"%s\".*?>(.*?)</table>", consignmentNo));
+        ArrayList<String> lines = parser.getTableLines("<td.*?>(^\\s|.*?)</td>");
 		
 		String date = "";
 		String location = "";
