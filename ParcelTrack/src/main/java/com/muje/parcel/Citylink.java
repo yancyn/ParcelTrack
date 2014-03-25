@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -99,8 +100,7 @@ public class Citylink extends Carrier {
 		return !matcher.find();
 	}
 	/**
-	 * Convert to correct date object.
-     * TODO: Error when in other language
+	 * Convert to correct date object based on English format.
      * http://tonysilvestri.com/blog/2010/09/27/android-converting-a-date-string-to-date-object/
 	 * @param date
 	 * @return
@@ -110,7 +110,7 @@ public class Citylink extends Carrier {
 
 		//convert Monday, March 28, 2011 08:48 PM
 		Date output = new Date();
-		SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, MMMM dd, yyyy hh:mm a");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, MMMM dd, yyyy hh:mm a", new Locale("en"));
 		output = dateFormat.parse(date);
 		
 		return output;
