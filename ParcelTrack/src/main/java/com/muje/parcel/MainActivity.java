@@ -227,9 +227,11 @@ public class MainActivity extends ActionBarActivity {
                     return true;
 
                 case R.id.action_delete:
-                    String consignmentNo = shipments.get(selectedIndex).getConsignmentNo();
-                    manager.delete(selectedIndex, consignmentNo);
-                    rebind();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setMessage(getString(R.string.are_you_sure))
+                            .setPositiveButton(getString(R.string.yes), deleteListener)
+                            .setNegativeButton(getString(R.string.no), deleteListener)
+                            .show();
                     return true;
 
                 default:
@@ -274,8 +276,8 @@ public class MainActivity extends ActionBarActivity {
                 // Clear all history
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setMessage(getString(R.string.are_you_sure))
-                        .setPositiveButton(getString(R.string.yes), dialogListener)
-                        .setNegativeButton(getString(R.string.no), dialogListener)
+                        .setPositiveButton(getString(R.string.yes), deleteAllListener)
+                        .setNegativeButton(getString(R.string.no), deleteAllListener)
                         .show();
                 return true;
             case R.id.action_settings:
@@ -287,7 +289,22 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private DialogInterface.OnClickListener dialogListener = new DialogInterface.OnClickListener() {
+    private DialogInterface.OnClickListener deleteListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialogInterface, int i) {
+            switch(i) {
+                case DialogInterface.BUTTON_POSITIVE:
+                    String consignmentNo = manager.getShipments().get(selectedIndex).getConsignmentNo();
+                    manager.delete(selectedIndex, consignmentNo);
+                    rebind();
+                    break;
+                case DialogInterface.BUTTON_NEGATIVE:
+                    break;
+            }
+        }
+    };
+
+    private DialogInterface.OnClickListener deleteAllListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialogInterface, int i) {
             switch(i) {
