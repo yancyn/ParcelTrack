@@ -51,6 +51,7 @@ public class MainActivity extends ActionBarActivity {
 
     private EditText editText1;
     private ImageButton crossButton = null;
+    private ImageButton searchButton = null;
     private ProgressDialog dialog = null;
     private ShipmentManager manager = null;
     private Runnable runnables;
@@ -80,8 +81,9 @@ public class MainActivity extends ActionBarActivity {
         editText1.setOnKeyListener(editText1OnKey);
         editText1.addTextChangedListener(searchTextWatcher);
 
-        ImageButton button1 = (ImageButton) findViewById(R.id.button1);
-        button1.setOnClickListener(button1OnClick);
+        searchButton = (ImageButton) findViewById(R.id.button1);
+        searchButton.setOnClickListener(button1OnClick);
+        searchButton.setEnabled(false); // Not allow to search if nothing provide in search text
 
         //only need to declare once
         manager = new ShipmentManager(this);
@@ -344,8 +346,10 @@ public class MainActivity extends ActionBarActivity {
             Log.d("DEBUG", "Filtering: " + charSequence);
             if(charSequence.length() > 0) {
                 crossButton.setVisibility(View.VISIBLE);
+                searchButton.setEnabled(true);
             } else {
                 crossButton.setVisibility(View.GONE);
+                searchButton.setEnabled(false);
             }
             adapter.getFilter().filter(charSequence);
         }
@@ -360,23 +364,24 @@ public class MainActivity extends ActionBarActivity {
         runnables = new Runnable() {
             @Override
             public void run() {
+
                 EditText editText1 = (EditText) findViewById(R.id.editText1);
                 searchText = editText1.getText().toString();
 
                 Spinner spinner = (Spinner) findViewById(R.id.spinner);
-                trace(searchText);
-//                String carrier = spinner.getSelectedItem().toString().toLowerCase();
-//                if(carrier.length() == 0) {
-//
-//                } else if(carrier.equals("poslaju")) {
-//
-//                } else if(carrier.equals("fedex")) {
-//
-//                } else if(carrier.equals("citylink")) {
-//
-//                } else if(carrier.equals("gdex")) {
-//
-//                }
+                String carrier = spinner.getSelectedItem().toString().toLowerCase();
+
+                if(carrier.length() == 0) {
+                    trace(searchText);
+                } else if(carrier.equals("poslaju")) {
+                    trace(new Poslaju(), searchText);
+                } else if(carrier.equals("fedex")) {
+                    trace(new Fedex(), searchText);
+                } else if(carrier.equals("citylink")) {
+                    trace(new Citylink(), searchText);
+                } else if(carrier.equals("gdex")) {
+                    trace(new Gdex(), searchText);
+                }
             }
         };
 
@@ -388,6 +393,12 @@ public class MainActivity extends ActionBarActivity {
     private void trace(String consignmentNo) {
         if(!manager.isExist(consignmentNo)) {
             manager.track(consignmentNo);
+        }
+        runOnUiThread(returnRes);
+    }
+    private void trace(Carrier carrier, String consignmentNo) {
+        if(!manager.isExist(consignmentNo)) {
+            manager.track(carrier, consignmentNo);
         }
         runOnUiThread(returnRes);
     }

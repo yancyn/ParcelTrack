@@ -121,6 +121,43 @@ public class ShipmentManager {
     }
 
     /**
+     * Track with carrier provided.
+     * @param carrier
+     * @param consignmentNo
+     */
+    public void track(Carrier carrier, String consignmentNo) {
+
+        Log.d("DEBUG", "Not exist in database");
+        Shipment shipment = new Shipment(carrier);
+
+        try {
+            shipment.trace(consignmentNo);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //shipment.setLabel(label);
+
+        // insert shipment header into database
+        ContentValues values = new ContentValues();
+        values.put("Number", shipment.getConsignmentNo());
+        values.put("Label", shipment.getLabel());
+        long id = database.insert(TABLE_SHIPMENTS, null, values);
+
+        // Dump tracks details into database
+        for(Track track: shipment.getTracks()) {
+            values = new ContentValues();
+            values.put("ShipmentId", id);
+            String date = dateFormat.format(track.getDate());
+            //Log.d("DEBUG", "Date: " + date);
+            values.put("Date", date);
+            values.put("Location", track.getLocation());
+            values.put("Description", track.getDescription());
+            database.insert(TABLE_TRACKS, null, values);
+        }
+        this.shipments.add(0,shipment);
+    }
+
+    /**
      * Update specific shipment in collection and database when add annotation.
      * @param shipment
      */

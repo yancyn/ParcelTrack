@@ -12,7 +12,7 @@ public class Shipment {
 
     private final String[] DELIVERED_KEYWORDS = new String[]{ "success", "delivered"};
 
-    private Carrier courier;
+    private Carrier carrier;
     private String consignmentNo;
     public String getConsignmentNo() { return this.consignmentNo; }
     private Status status;
@@ -38,17 +38,17 @@ public class Shipment {
      * @return
      */
     public String getProviderName() {
-        return this.courier.getProviderName();
+        return this.carrier.getProviderName();
     }
     /**
      * Return provider logo image resource id.
      * @return
      */
     public int getLogoId() {
-        if(courier == null) {
+        if(carrier == null) {
             return 0;
         } else {
-            return this.courier.getLogoId();
+            return this.carrier.getLogoId();
         }
     }
 
@@ -57,19 +57,17 @@ public class Shipment {
      * @return
      */
     public String getUrl() {
-        if(this.courier == null) {
+        if(this.carrier == null) {
             return "";
         } else {
-            return this.courier.getUrl();
+            return this.carrier.getUrl();
         }
     }
 
     public Shipment(String consignmentNo) {
-
         this.status = Status.INVALID;
         this.label = "";
         this.tracks = new ArrayList<Track>();
-
         this.consignmentNo = consignmentNo;
         try {
             locateCourier();
@@ -77,29 +75,43 @@ public class Shipment {
             e.printStackTrace();
         }
     }
+    public Shipment(Carrier carrier) {
+        this.status = Status.INVALID;
+        this.label = "";
+        this.tracks = new ArrayList<Track>();
+        this.carrier = carrier;
+    }
     protected void locateCourier() throws Exception  {
 
         //determine which Carrier to be use
         //check is poslaju's parcel ie. EM046999084MY
         if(consignmentNo.matches("[a-zA-Z]{2}[0-9]{9}[a-zA-Z]{2}")) {
-            courier = new Poslaju(this.consignmentNo);
+            carrier = new Poslaju(this.consignmentNo);
         }
         //check is citylink's parcel ie. 060301203057634
         else if(consignmentNo.matches("[0-9]{15}")) {
-            courier = new Citylink(this.consignmentNo);
+            carrier = new Citylink(this.consignmentNo);
         }
         //check is gdex's parcel ie. 4340560475
         else if(consignmentNo.matches("[0-9]{10}")) {
-            courier = new Gdex(this.consignmentNo);
+            carrier = new Gdex(this.consignmentNo);
         }
         //check is FedEx's parcel ie. 797337230186
         else if(consignmentNo.matches("[0-9]{12}")) {
-            courier = new Fedex(this.consignmentNo);
+            carrier = new Fedex(this.consignmentNo);
         }
+    }
+
+    /**
+     * Track on chosen carrier only.
+     * @param consignmentNo
+     */
+    public void trace(String consignmentNo) {
+        this.consignmentNo = consignmentNo;
+        trace();
     }
     /**
      * Trace by consignment no.
-     * Currently supported Malaysia Poslaju parcel system.
      *
      * @throws Exception
      */
@@ -107,14 +119,14 @@ public class Shipment {
         Log.d("DEBUG", "Consignment No: " + consignmentNo);
 
         try {
-            this.courier.trace(consignmentNo);
+            this.carrier.trace(consignmentNo);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        if(courier == null) return;
+        if(carrier == null) return;
 
-        this.tracks = this.courier.getTracks();
+        this.tracks = this.carrier.getTracks();
         setProperties();
     }
 
