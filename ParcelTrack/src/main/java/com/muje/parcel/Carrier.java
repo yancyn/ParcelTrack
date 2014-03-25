@@ -87,24 +87,5 @@ public abstract class Carrier {
 	 * @param consignmentNo
 	 * @throws Exception
 	 */
-	public abstract void trace(String consignmentNo) throws Exception;	
-	/**
-	 * Return inner html for table's cell.
-	 * 
-	 * @param html
-	 * @return
-	 */
-	protected String getCellValue(String html) {
-		
-		String inner = "";		
-		String regex = ">(.*?)<";
-		Pattern p = Pattern.compile(regex);
-		Matcher m = p.matcher(html);		
-		while (m.find()) {
-			inner += m.group();
-		}
-		inner = inner.replaceAll(">","").replaceAll("<","").trim();
-		
-		return inner;
-	}
+	public abstract void trace(String consignmentNo) throws Exception;
 }

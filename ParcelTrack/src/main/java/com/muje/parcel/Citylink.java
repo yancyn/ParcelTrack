@@ -1,5 +1,7 @@
 package com.muje.parcel;
 
+import com.muje.util.HtmlParser;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.text.ParseException;
@@ -38,40 +40,16 @@ public class Citylink extends Carrier {
 	public void trace(String consignmentNo) throws Exception {
 		
 		this.tracks.clear();
-		
-		//get response content
-		String response = "";
-		String line = "";
-		String webpage = "http://www.citylinkexpress.com/shipmentTrack/index.php";
-		
-		HttpClient httpClient = new DefaultHttpClient();
-		HttpPost httpPost = new HttpPost(webpage);
-		
-		List<NameValuePair> pairs = new ArrayList<NameValuePair>(4);
-		pairs.add(new BasicNameValuePair("Submit.x","27"));
-		pairs.add(new BasicNameValuePair("Submit.y","7"));
-		pairs.add(new BasicNameValuePair("no",consignmentNo));
-		pairs.add(new BasicNameValuePair("type","consignment"));
-		httpPost.setEntity(new UrlEncodedFormEntity(pairs));
-		
-		HttpResponse httpResponse = httpClient.execute(httpPost);
-		HttpEntity entity = httpResponse.getEntity();
-		 
-		BufferedReader reader = new BufferedReader(new InputStreamReader(entity.getContent()));
-		while ((line = reader.readLine()) != null) {
-			response += line+"\n";//for regex convenient
-			//Log.d("DEBUG",line);
-		} reader.close();
-		
 
-		//collect table row innerHTML
-		ArrayList<String> lines = new ArrayList<String>();
-		String regex = "<td.*class=\"(tabletitle|table_detail)\".*>.*</td>";
-		Pattern pattern = Pattern.compile(regex);
-		Matcher matcher = pattern.matcher(response);
-		while (matcher.find()) {
-			lines.add(matcher.group());
-		}
+        List<NameValuePair> pairs = new ArrayList<NameValuePair>(4);
+        pairs.add(new BasicNameValuePair("Submit.x","27"));
+        pairs.add(new BasicNameValuePair("Submit.y","7"));
+        pairs.add(new BasicNameValuePair("no",consignmentNo));
+        pairs.add(new BasicNameValuePair("type","consignment"));
+
+        HtmlParser parser = new HtmlParser("http://www.citylinkexpress.com/shipmentTrack/index.php", pairs);
+        parser.getTable("");
+        ArrayList<String> lines = parser.getTableLines("<td.*class=\"(tabletitle|table_detail)\".*>.*</td>");
 		
 		//dump track information
 		String dateHeader = "";
@@ -83,19 +61,19 @@ public class Citylink extends Carrier {
 			if(l.contains("tabletitle")) {
 				marker = 0;//reset				
 				if(isDateHeader(l)) {
-					dateHeader = getCellValue(l);
+					dateHeader = HtmlParser.getCellValue(l);
 				}
 			} else if(l.contains("table_detail")) {
 				
 				switch(marker%3) {
 					case 0:
-						status = getCellValue(l);
+						status = HtmlParser.getCellValue(l);
 						break;
 					case 1:
-						date = dateHeader + " " + getCellValue(l);
+						date = dateHeader + " " + HtmlParser.getCellValue(l);
 						break;
 					case 2:
-						location = getCellValue(l);
+						location = HtmlParser.getCellValue(l);
 						
 						//insert a new track
 						this.tracks.add(new Track(toDate(date),location,status));
@@ -122,12 +100,14 @@ public class Citylink extends Carrier {
 	}
 	/**
 	 * Convert to correct date object.
+     * TODO: Error when in other language
      * http://tonysilvestri.com/blog/2010/09/27/android-converting-a-date-string-to-date-object/
 	 * @param date
 	 * @return
 	 * @throws ParseException
 	 */
 	private Date toDate(String date) throws ParseException {
+
 		//convert Monday, March 28, 2011 08:48 PM
 		Date output = new Date();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, MMMM dd, yyyy hh:mm a");

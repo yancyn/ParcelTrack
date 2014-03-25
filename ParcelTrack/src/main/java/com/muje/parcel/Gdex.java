@@ -40,7 +40,7 @@ public class Gdex extends Carrier {
         for (int i = 0; i < lines.size(); i++) {
             switch (i % 4) {
                 case 2:
-                    String line = getCellValue(lines.get(i));
+                    String line = HtmlParser.getCellValue(lines.get(i));
                     Pattern p = Pattern.compile("[0-9]");
                     Matcher m = p.matcher(line);
                     while(m.find()) {
@@ -49,7 +49,7 @@ public class Gdex extends Carrier {
                     }
                     break;
                 case 3:
-                    desc = getCellValue(lines.get(i));
+                    desc = HtmlParser.getCellValue(lines.get(i));
                     if(date.length() > 0) {
                         this.tracks.add(new Track(toDate(date), "", desc));
                         date = "";

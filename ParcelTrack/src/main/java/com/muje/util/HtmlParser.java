@@ -1,19 +1,22 @@
 package com.muje.util;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * TODO: HTML parser helper.
+ * HTML parser helper.
  * Created by yeang-shing.then on 3/24/14.
  */
 public class HtmlParser {
@@ -24,31 +27,56 @@ public class HtmlParser {
     public HtmlParser(String url) {
         this.url = url;
         this.tableHtml = "";
+        this.params = new ArrayList<NameValuePair>();
     }
-    public HtmlParser(String url, List<NameValuePair> params ) {
+
+    private List<NameValuePair> params;
+    public HtmlParser(String url, List<NameValuePair> params) {
         this.url = url;
         this.tableHtml = "";
+        this.params = params;
     }
 
     private String tableHtml;
     public void getTable(String regex) throws Exception {
 
+        //URL webpage = new URL(url);
+        //URLConnection connection = webpage.openConnection();
+
+        boolean addNewLine = false;
+        if(regex == null)
+            addNewLine = true;
+        else if(regex.length() == 0)
+            addNewLine = true;
+
+        HttpClient httpClient = new DefaultHttpClient();
+        HttpPost httpPost = new HttpPost(this.url);
+        httpPost.setEntity(new UrlEncodedFormEntity(params));
+
+        HttpResponse httpResponse = httpClient.execute(httpPost);
+        HttpEntity entity = httpResponse.getEntity();
+
         String response = "";
-        URL webpage = new URL(url);
-        URLConnection connection = webpage.openConnection();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         String line = "";
+        BufferedReader reader = new BufferedReader(new InputStreamReader(entity.getContent()));
         while ((line = reader.readLine()) != null) {
             response += line;
+            if(addNewLine) response += "\n";// HACK: required for CitiLink. The rest not required otherwise fail
         }
         reader.close();
 
         // extract delivery html table
         tableHtml = "";
-        Pattern p = Pattern.compile(regex);
-        Matcher m = p.matcher(response);
-        while (m.find()) {
-            tableHtml += m.group();
+        if(regex == null) {
+            tableHtml = response;
+        } else if(regex.length() == 0) {
+            tableHtml = response;
+        } else {
+            Pattern p = Pattern.compile(regex);
+            Matcher m = p.matcher(response);
+            while (m.find()) {
+                tableHtml += m.group();
+            }
         }
     }
 
@@ -64,6 +92,26 @@ public class HtmlParser {
         }
 
         return lines;
+    }
+
+    /**
+     * Return inner html for table's cell.
+     *
+     * @param td Html
+     * @return
+     */
+    public static String getCellValue(String td) {
+
+        String inner = "";
+        String regex = ">(.*?)<";
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(td);
+        while (m.find()) {
+            inner += m.group();
+        }
+        inner = inner.replaceAll(">","").replaceAll("<","").trim();
+
+        return inner;
     }
 
 }

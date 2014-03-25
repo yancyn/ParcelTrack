@@ -52,13 +52,13 @@ public class Poslaju extends Carrier {
 					location = "";
 					desc = "";
 				}
-				date = getCellValue(lines.get(i));
+				date = HtmlParser.getCellValue(lines.get(i));
 				break;
 			case 1:
-				desc = getCellValue(lines.get(i));
+				desc = HtmlParser.getCellValue(lines.get(i));
 				break;
 			case 2:
-				location = getCellValue(lines.get(i));
+				location = HtmlParser.getCellValue(lines.get(i));
 				break;
 			}
 		}
