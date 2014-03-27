@@ -49,7 +49,7 @@ public class Citylink extends Carrier {
         pairs.add(new BasicNameValuePair("type","consignment"));
 
         HtmlParser parser = new HtmlParser("http://www.citylinkexpress.com/shipmentTrack/index.php", pairs);
-        parser.getTable("");
+        parser.request();
         ArrayList<String> lines = parser.getTableLines("<td.*class=\"(tabletitle|table_detail)\".*>.*</td>");
 		
 		//dump track information

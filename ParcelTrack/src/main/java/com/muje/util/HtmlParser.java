@@ -24,6 +24,15 @@ public class HtmlParser {
     private String url;
     private HttpPost post = null;
 
+    /**
+     * Recommended constructor.
+     * <quote>
+     *     HtmlParser parser = new HtmlParser(this.url);
+     *     parser.getTable(String.format("<TABLE.*id=\"%s\".*?>(.*?)</table>", consignmentNo));
+     *     ArrayList<String> lines = parser.getTableLines("<td.*?>(^\\s|.*?)</td>");
+     * </quote>
+     * @param url
+     */
     public HtmlParser(String url) {
         this.url = url;
         this.tableHtml = "";
@@ -31,23 +40,51 @@ public class HtmlParser {
     }
 
     private List<NameValuePair> params;
+
+    /**
+     * Constructor for direct get table lines.
+     * <quote>
+     *      HtmlParser parser = new HtmlParser("http://www.citylinkexpress.com/shipmentTrack/index.php", pairs);
+     *      parser.request();
+     *      ArrayList<String> lines = parser.getTableLines("<td.*class=\"(tabletitle|table_detail)\".*>.*</td>");
+     * </quote>
+     * @param url
+     * @param params
+     */
     public HtmlParser(String url, List<NameValuePair> params) {
         this.url = url;
         this.tableHtml = "";
         this.params = params;
     }
 
+    public void request() throws Exception {
+
+        HttpClient httpClient = new DefaultHttpClient();
+        HttpPost httpPost = new HttpPost(this.url);
+        httpPost.setEntity(new UrlEncodedFormEntity(params));
+
+        HttpResponse httpResponse = httpClient.execute(httpPost);
+        HttpEntity entity = httpResponse.getEntity();
+
+        String response = "";
+        String line = "";
+        BufferedReader reader = new BufferedReader(new InputStreamReader(entity.getContent()));
+        while ((line = reader.readLine()) != null) {
+            response += line + "\n";// HACK: required for CitiLink. The rest not required otherwise fail
+        }
+        reader.close();
+
+        // extract delivery html table
+        tableHtml = response;
+    }
+
+
+
     private String tableHtml;
     public void getTable(String regex) throws Exception {
 
         //URL webpage = new URL(url);
         //URLConnection connection = webpage.openConnection();
-
-        boolean addNewLine = false;
-        if(regex == null)
-            addNewLine = true;
-        else if(regex.length() == 0)
-            addNewLine = true;
 
         HttpClient httpClient = new DefaultHttpClient();
         HttpPost httpPost = new HttpPost(this.url);
@@ -61,7 +98,6 @@ public class HtmlParser {
         BufferedReader reader = new BufferedReader(new InputStreamReader(entity.getContent()));
         while ((line = reader.readLine()) != null) {
             response += line;
-            if(addNewLine) response += "\n";// HACK: required for CitiLink. The rest not required otherwise fail
         }
         reader.close();
 
