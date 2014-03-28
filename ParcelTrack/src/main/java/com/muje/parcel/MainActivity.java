@@ -28,6 +28,7 @@ import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
@@ -55,7 +56,7 @@ public class MainActivity extends ActionBarActivity {
     private ProgressDialog dialog = null;
     private ShipmentManager manager = null;
     private Runnable runnables;
-    private AdView adView;
+    private AdView adView = null;
     private Timer timer;
 
     @Override
@@ -98,17 +99,19 @@ public class MainActivity extends ActionBarActivity {
         listView.setAdapter(adapter);
 
         // Create an ad.
-        adView = new AdView(this);
-        adView.setAdSize(AdSize.BANNER);
-        adView.setAdUnitId(getString(R.string.ad_unit_id));
+        if(getPackageName().equals("com.muje.parcel.free")) {
+            adView = new AdView(this);
+            adView.setAdSize(AdSize.BANNER);
+            adView.setAdUnitId(getString(R.string.ad_unit_id));
 
-        LinearLayout layout = (LinearLayout)findViewById(R.id.adLayout);
-        layout.addView(adView);
+            LinearLayout layout = (LinearLayout)findViewById(R.id.adLayout);
+            layout.addView(adView);
 
-        AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                .build();
-        adView.loadAd(adRequest);
+            AdRequest adRequest = new AdRequest.Builder()
+                    .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                    .build();
+            adView.loadAd(adRequest);
+        }
 
         // create timer for launch notification
         setNotification();
@@ -256,6 +259,12 @@ public class MainActivity extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
+            // TODO: export history into excel
+            case R.id.action_export:
+                if(getPackageName().equals("com.muje.parcel.free")) {
+                    Toast.makeText(this, getString(R.string.upgrade_prompt), Toast.LENGTH_SHORT).show();
+                }
+                break;
             case R.id.action_update_all:
                 // Refresh all pending parcel status
                 //Log.d("DEBUG", "Refresh all pending parcel");
