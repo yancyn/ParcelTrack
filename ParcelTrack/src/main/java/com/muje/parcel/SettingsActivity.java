@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
@@ -90,9 +91,10 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
                     return true;
                 }
             });
-            PreferenceScreen screen = getPreferenceScreen();
+            //PreferenceScreen screen = getPreferenceScreen();
+            PreferenceCategory cat = (PreferenceCategory)findPreference("catAbout");
             if(getPackageName().equals("com.muje.parcel")) {
-                screen.removePreference(prefUpgrade);
+                cat.removePreference(prefUpgrade);
             }
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
