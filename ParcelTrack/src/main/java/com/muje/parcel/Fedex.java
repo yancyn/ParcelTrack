@@ -5,10 +5,6 @@ import com.muje.util.JsonHelper;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
@@ -68,40 +64,6 @@ public class Fedex extends Carrier {
         //Log.d("DEBUG", map.toString());
         return map;
     }
-    private HttpResponse postJson(String path) throws Exception {
-
-        DefaultHttpClient httpClient = new DefaultHttpClient();
-        HttpPost httpPost = new HttpPost(path);
-
-        JSONObject holder = new JSONObject(composeDataJSON());
-
-        ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair("action", "trackpackages"));
-        params.add(new BasicNameValuePair("data", holder.toString()));
-        params.add(new BasicNameValuePair("format", "json"));
-        params.add(new BasicNameValuePair("locale", "en_US"));
-        params.add(new BasicNameValuePair("version", "99"));
-        httpPost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
-
-        httpPost.setHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
-        httpPost.setHeader("X-Requested-With", "XMLHttpRequest");
-
-        return httpClient.execute(httpPost);
-    }
-    private HttpResponse postJson(String path, Map params) throws Exception {
-
-        DefaultHttpClient httpClient = new DefaultHttpClient();
-        HttpPost httpPost = new HttpPost(path);
-
-        JSONObject holder = new JSONObject(params);
-        StringEntity se = new StringEntity(holder.toString());
-        httpPost.setEntity(se);
-
-        httpPost.setHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
-        httpPost.setHeader("X-Requested-With", "XMLHttpRequest");
-
-        return httpClient.execute(httpPost);
-    }
 
     @Override
     public void trace(String consignmentNo) throws Exception {
@@ -110,7 +72,15 @@ public class Fedex extends Carrier {
         this.url = String.format("https://www.fedex.com/fedextrack/index.html?tracknumbers=%s", consignmentNo);
         this.tracks.clear();
 
-        HttpResponse response = postJson("https://www.fedex.com/trackingCal/track");
+        JSONObject holder = new JSONObject(composeDataJSON());
+        ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("action", "trackpackages"));
+        params.add(new BasicNameValuePair("data", holder.toString()));
+        params.add(new BasicNameValuePair("format", "json"));
+        params.add(new BasicNameValuePair("locale", "en_US"));
+        params.add(new BasicNameValuePair("version", "99"));
+
+        HttpResponse response = JsonHelper.postJson("https://www.fedex.com/trackingCal/track", params);
         HttpEntity entity = response.getEntity();
         InputStream inputStream = entity.getContent();
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"), 8);
