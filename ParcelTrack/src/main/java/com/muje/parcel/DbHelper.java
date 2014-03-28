@@ -43,4 +43,5 @@ public class DbHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS Shipments");
         onCreate(sqLiteDatabase);
     }
+	
 }

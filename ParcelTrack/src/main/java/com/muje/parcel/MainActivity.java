@@ -499,5 +499,4 @@ public class MainActivity extends ActionBarActivity {
         NotificationManager nManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
         nManager.notify(NOTIFICATION_ID, builder.build());
     }
-
 }

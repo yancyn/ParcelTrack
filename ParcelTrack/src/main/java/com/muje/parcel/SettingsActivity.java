@@ -99,4 +99,5 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
             }
         }
     }
+	
 }

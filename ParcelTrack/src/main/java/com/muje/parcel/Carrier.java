@@ -84,4 +84,5 @@ public abstract class Carrier {
 	 * @throws Exception
 	 */
 	public abstract void trace(String consignmentNo) throws Exception;
+	
 }

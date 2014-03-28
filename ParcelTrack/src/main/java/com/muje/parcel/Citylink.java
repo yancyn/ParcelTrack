@@ -107,5 +107,4 @@ public class Citylink extends Carrier {
 		
 		return output;
 	}
-
 }
