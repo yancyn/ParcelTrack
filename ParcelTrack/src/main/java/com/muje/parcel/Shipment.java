@@ -1,6 +1,6 @@
 package com.muje.parcel;
 
-import android.util.Log;
+//import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -116,7 +116,7 @@ public class Shipment {
      * @throws Exception
      */
     public void trace() {
-        Log.d("DEBUG", "Consignment No: " + consignmentNo);
+        //Log.d("DEBUG", "Consignment No: " + consignmentNo);
 
         try {
             this.carrier.trace(consignmentNo);

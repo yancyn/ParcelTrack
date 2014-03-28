@@ -16,7 +16,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
+//import android.util.Log;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -172,7 +172,7 @@ public class MainActivity extends ActionBarActivity {
             switch(item.getItemId()) {
                 //open link in browser
                 case R.id.action_open_link:
-                    Log.d("DEBUG", "Open link in browser");
+                    //Log.d("DEBUG", "Open link in browser");
                     Intent browser = new Intent(Intent.ACTION_VIEW, Uri.parse(shipment.getUrl()));
                     startActivity(browser);
                     return true;
@@ -191,7 +191,7 @@ public class MainActivity extends ActionBarActivity {
                         public void onClick(DialogInterface dialogInterface, int i) {
                             String value = input.getText().toString();
                             shipment1.setLabel(value);
-                            Log.d("DEBUG", "Add " + shipment1.getLabel() + " to " + shipment1.getConsignmentNo());
+                            //Log.d("DEBUG", "Add " + shipment1.getLabel() + " to " + shipment1.getConsignmentNo());
                             manager.update(shipment1);
                             rebind();
                         }
@@ -258,7 +258,7 @@ public class MainActivity extends ActionBarActivity {
         switch (item.getItemId()) {
             case R.id.action_update_all:
                 // Refresh all pending parcel status
-                Log.d("DEBUG", "Refresh all pending parcel");
+                //Log.d("DEBUG", "Refresh all pending parcel");
                 runnables = new Runnable() {
                     @Override
                     public void run() {
@@ -309,7 +309,7 @@ public class MainActivity extends ActionBarActivity {
         public void onClick(DialogInterface dialogInterface, int i) {
             switch(i) {
                 case DialogInterface.BUTTON_POSITIVE:
-                    Log.d("DEBUG", "Remove all history");
+                    //Log.d("DEBUG", "Remove all history");
                     manager.deleteAll();
                     rebind();
                     break;
@@ -360,7 +360,7 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-            Log.d("DEBUG", "Filtering: " + charSequence);
+            //Log.d("DEBUG", "Filtering: " + charSequence);
             if(charSequence.length() > 0) {
                 crossButton.setVisibility(View.VISIBLE);
                 searchButton.setEnabled(true);
@@ -450,13 +450,13 @@ public class MainActivity extends ActionBarActivity {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         boolean enabled = sharedPreferences.getBoolean("prefNotificationEnabled", false);
-        Log.d("DEBUG", "Notification: " + enabled);
+        //Log.d("DEBUG", "Notification: " + enabled);
         if(!enabled) return;
 
         String hourStr = sharedPreferences.getString("prefNotificationHour", "0");
         int hour = Integer.parseInt(hourStr);
         if(hour > 0) {
-            Log.d("DEBUG", "Notify every " + hour + " hours");
+            //Log.d("DEBUG", "Notify every " + hour + " hours");
             timer = new Timer();
             timer.schedule(new TimerTask(){
                 @Override

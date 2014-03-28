@@ -4,13 +4,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.regex.*;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
+//import android.util.Log;
 
 /**
  * Manager class for shipments.
@@ -38,7 +37,7 @@ public class ShipmentManager {
         Initialize();
     }
     private void Initialize() {
-        Log.d("DEBUG", "Initializing manager");
+        //Log.d("DEBUG", "Initializing manager");
         dbHelper = new DbHelper(context);
         database = dbHelper.getWritableDatabase();
         Cursor cursor = database.rawQuery(SQL_SELECT_ALL_SHIPMENTS, null);
@@ -90,7 +89,7 @@ public class ShipmentManager {
     }
     public void track(String consignmentNo, String label) {
 
-        Log.d("DEBUG", "Not exist in database");
+        //Log.d("DEBUG", "Not exist in database");
         Shipment shipment = new Shipment(consignmentNo);
 
         try {
@@ -127,7 +126,7 @@ public class ShipmentManager {
      */
     public void track(Carrier carrier, String consignmentNo) {
 
-        Log.d("DEBUG", "Not exist in database");
+        //Log.d("DEBUG", "Not exist in database");
         Shipment shipment = new Shipment(carrier);
 
         try {
@@ -188,7 +187,7 @@ public class ShipmentManager {
 
         database.delete(TABLE_TRACKS, "ShipmentId = " + id, null);
         database.delete(TABLE_SHIPMENTS, "Id = " + id, null);
-        Log.d("DEBUG", consignmentNo + " deleted");
+        //Log.d("DEBUG", consignmentNo + " deleted");
     }
     public void deleteAll() {
         database.execSQL(SQL_DELETE_ALL_TRACKS);

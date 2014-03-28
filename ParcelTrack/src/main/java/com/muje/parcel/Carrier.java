@@ -1,11 +1,7 @@
 package com.muje.parcel;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Carrier abstract class

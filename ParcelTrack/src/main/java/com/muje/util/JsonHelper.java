@@ -1,8 +1,14 @@
 package com.muje.util;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
@@ -56,5 +62,17 @@ public class JsonHelper {
                 getValueFromJSONArray((JSONArray)obj, key);
             }
         }
+    }
+
+    public static HttpResponse postJson(String path, ArrayList<NameValuePair> params) throws Exception {
+
+        DefaultHttpClient httpClient = new DefaultHttpClient();
+        HttpPost httpPost = new HttpPost(path);
+        httpPost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
+
+        httpPost.setHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
+        httpPost.setHeader("X-Requested-With", "XMLHttpRequest");
+
+        return httpClient.execute(httpPost);
     }
 }
