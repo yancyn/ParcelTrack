@@ -38,5 +38,9 @@
     <string name="contact">Hubungi</string>
     <string name="contact_email">yancyn@gmail.com</string>
     <string name="version">Versi</string>
+    <string name="upgrade">Upgrade</string>
+    <string name="upgrade_title">Upgrade</string>
+    <string name="upgrade_summary">Upgrade kepada versi premium untuk membuang iklan dan menikmati fungsi-fungsi tambahan!</string>
+    <string name="upgrade_prompt">Sila upgrade untuk menggunakan fungsi ini.</string>
 
 </resources>

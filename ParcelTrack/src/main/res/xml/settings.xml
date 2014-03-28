@@ -23,8 +23,8 @@
             android:summary="@string/contact_email" />
         <Preference
             android:key="prefUpgrade"
-            android:title=""
-            android:sumary="" />
+            android:title="@string/upgrade_title"
+            android:summary="@string/upgrade_summary" />
         <Preference
             android:key="prefVersion"
             android:title="@string/version" />

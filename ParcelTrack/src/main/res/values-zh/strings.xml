@@ -38,6 +38,10 @@
     <string name="contact">联系</string>
     <string name="contact_email">yancyn@gmail.com</string>
     <string name="version">版本</string>
+    <string name="upgrade">升级</string>
+    <string name="upgrade_title">升级</string>
+    <string name="upgrade_summary">升级至高级版本以去除广告和享受更多功能！</string>
+    <string name="upgrade_prompt">升级后才能使用此功能。</string>
 
     <!-- http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes -->
 

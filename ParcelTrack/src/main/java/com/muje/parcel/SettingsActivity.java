@@ -3,11 +3,13 @@ package com.muje.parcel;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
 
 /**
@@ -63,7 +65,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
                     intent.putExtra(Intent.EXTRA_EMAIL, new String[]{getResources().getString(R.string.contact_email)});
                     intent.setType("message/rfc822");//"application/octet-stream");
                     startActivity(Intent.createChooser(intent, getString(R.string.email_title).toString()));
-                    return false;
+                    return true;
                 }
             });
 
@@ -72,6 +74,26 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
             String version = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
             prefVersion.setSummary(version);
 
+            // set upgrade button
+            Preference prefUpgrade = findPreference("prefUpgrade");
+            prefUpgrade.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse("market://details?id=com.muje.parcel"));
+                    try {
+                        startActivity(intent);
+                    } catch (Exception e) {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=com.muje.parcel")));
+                        e.printStackTrace();
+                    }
+                    return true;
+                }
+            });
+            PreferenceScreen screen = getPreferenceScreen();
+            if(getPackageName().equals("com.muje.parcel")) {
+                screen.removePreference(prefUpgrade);
+            }
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
