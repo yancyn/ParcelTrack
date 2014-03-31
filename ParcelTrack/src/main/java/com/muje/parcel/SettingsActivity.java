@@ -81,11 +81,11 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse("market://details?id=com.muje.parcel"));
+                    intent.setData(Uri.parse("market://details?id="+getString(R.string.package_name)));
                     try {
                         startActivity(intent);
                     } catch (Exception e) {
-                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=com.muje.parcel")));
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id="+getString(R.string.package_name))));
                         e.printStackTrace();
                     }
                     return true;
@@ -93,7 +93,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
             });
             //PreferenceScreen screen = getPreferenceScreen();
             PreferenceCategory cat = (PreferenceCategory)findPreference("catAbout");
-            if(getPackageName().equals("com.muje.parcel")) {
+            if(getPackageName().equals(getString(R.string.package_name))) {
                 cat.removePreference(prefUpgrade);
             }
         } catch (PackageManager.NameNotFoundException e) {

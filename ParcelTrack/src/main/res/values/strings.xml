@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="package_name">com.muje.parcel</string>
+    <string name="free_package_name">com.muje.parcel.free</string>
+
     <string name="app_name">Parcel Track</string>
     <string name="hello_world">Hello world!</string>
     <string name="comma">,\u0020</string>

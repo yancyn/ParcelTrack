@@ -99,7 +99,7 @@ public class MainActivity extends ActionBarActivity {
         listView.setAdapter(adapter);
 
         // Create an ad.
-        if(getPackageName().equals("com.muje.parcel.free")) {
+        if(getPackageName().equals(getString(R.string.free_package_name))) {
             adView = new AdView(this);
             adView.setAdSize(AdSize.BANNER);
             adView.setAdUnitId(getString(R.string.ad_unit_id));
@@ -261,7 +261,7 @@ public class MainActivity extends ActionBarActivity {
         switch (item.getItemId()) {
             // TODO: export history into excel
             case R.id.action_export:
-                if(getPackageName().equals("com.muje.parcel.free")) {
+                if(getPackageName().equals(getString(R.string.free_package_name))) {
                     Toast.makeText(this, getString(R.string.upgrade_prompt), Toast.LENGTH_SHORT).show();
                 }
                 break;
