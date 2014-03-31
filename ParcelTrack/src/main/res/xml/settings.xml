@@ -27,6 +27,10 @@
             android:title="@string/upgrade_title"
             android:summary="@string/upgrade_summary" />
         <Preference
+            android:key="prefError"
+            android:title="@string/error_title"
+            android:summary="@string/error_summary" />
+        <Preference
             android:key="prefVersion"
             android:title="@string/version" />
     </PreferenceCategory>

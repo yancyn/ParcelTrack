@@ -45,6 +45,8 @@
     <string name="upgrade_title">Upgrade</string>
     <string name="upgrade_summary">Upgrade to premium version to remove advertisement and enjoy additional features!</string>
     <string name="upgrade_prompt">Please upgrade to use this feature.</string>
+    <string name="error_title">Report Error</string>
+    <string name="error_summary">Report error found or any suggestion</string>
 
     <string-array name="carriers">
         <item></item>

@@ -42,5 +42,7 @@
     <string name="upgrade_title">Upgrade</string>
     <string name="upgrade_summary">Upgrade kepada versi premium untuk membuang iklan dan menikmati fungsi-fungsi tambahan!</string>
     <string name="upgrade_prompt">Sila upgrade untuk menggunakan fungsi ini.</string>
+    <string name="error_title">Lapor Bug</string>
+    <string name="error_summary">Lapor bug yang ditemui atau cadangan</string>
 
 </resources>

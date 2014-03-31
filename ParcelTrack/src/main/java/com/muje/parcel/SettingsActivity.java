@@ -96,6 +96,20 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
             if(getPackageName().equals(getString(R.string.package_name))) {
                 cat.removePreference(prefUpgrade);
             }
+
+            // set report error button
+            Preference prefError = findPreference("prefError");
+            prefError.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    try {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/yancyn/ParcelTrack/issues")));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return true;
+                }
+            });
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
