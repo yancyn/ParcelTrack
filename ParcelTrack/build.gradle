@@ -19,6 +19,16 @@ android {
     defaultConfig {
         minSdkVersion 8
         targetSdkVersion 19
+
+        productFlavors {
+            paid {
+                packageName "com.muje.parcel"
+            }
+
+            free {
+                packageName "com.muje.parcel.free"
+            }
+        }
     }
 }
 
