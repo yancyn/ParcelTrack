@@ -19,7 +19,7 @@
     <string name="annotation_summary">请输入您的标签</string>
     <string name="action_update">更新</string>
     <string name="action_delete">删除</string>
-    <string name="action_export">输出全部</string>
+    <string name="action_export">输出及发送</string>
     <string name="action_update_all">刷新全部</string>
     <string name="action_clear_all">删除记录</string>
     <string name="action_settings">设定</string>

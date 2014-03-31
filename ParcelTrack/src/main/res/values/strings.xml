@@ -26,7 +26,7 @@
     <string name="annotation_summary">Please enter your label</string>
     <string name="action_update">Update</string>
     <string name="action_delete">Delete</string>
-    <string name="action_export">Export All</string>
+    <string name="action_export">Export &amp; Send</string>
     <string name="action_update_all">Refresh All</string>
     <string name="action_clear_all">Clear History</string>
     <string name="action_settings">Settings</string>
