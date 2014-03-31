@@ -1,6 +1,6 @@
-ParcelTrack
+![logo](https://raw.githubusercontent.com/yancyn/ParcelTrack/master/ParcelTrack/src/main/res/drawable-mdpi/parcel.png) ParcelTrack
 ===========
-Track on any Malaysian courier parcel like Poslaju, CityLink, and GDex.
+Track on Malaysia carries parcel like Poslaju, CityLink, GDex, and FedEx.
 
 Features
 ---------
