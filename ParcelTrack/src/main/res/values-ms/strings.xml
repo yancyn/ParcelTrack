@@ -44,5 +44,6 @@
     <string name="upgrade_prompt">Sila upgrade untuk menggunakan fungsi ini.</string>
     <string name="error_title">Lapor Bug</string>
     <string name="error_summary">Lapor bug yang ditemui atau cadangan</string>
+    <string name="email_subject">Senarai Bungkusan</string>
 
 </resources>

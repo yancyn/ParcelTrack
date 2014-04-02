@@ -44,6 +44,7 @@
     <string name="upgrade_prompt">升级后才能使用此功能。</string>
     <string name="error_title">报告问题</string>
     <string name="error_summary">报告发现的错误或者任何建议。</string>
+    <string name="email_subject">包裹记录</string>
 
     <!-- http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes -->
 

@@ -47,6 +47,7 @@
     <string name="upgrade_prompt">Please upgrade to use this feature.</string>
     <string name="error_title">Report Error</string>
     <string name="error_summary">Report error found or any suggestion</string>
+    <string name="email_subject">Parcel History</string>
 
     <string-array name="carriers">
         <item></item>
