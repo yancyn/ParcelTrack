@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
@@ -16,7 +17,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-//import android.util.Log;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -34,6 +34,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -259,11 +260,14 @@ public class MainActivity extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
-            // TODO: export history into excel
+            // export history into excel
             case R.id.action_export:
                 if(getPackageName().equals(getString(R.string.free_package_name))) {
                     Toast.makeText(this, getString(R.string.upgrade_prompt), Toast.LENGTH_SHORT).show();
+                    return true;
                 }
+
+                exportAndSend();
                 break;
             case R.id.action_update_all:
                 // Refresh all pending parcel status
@@ -507,5 +511,30 @@ public class MainActivity extends ActionBarActivity {
 
         NotificationManager nManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
         nManager.notify(NOTIFICATION_ID, builder.build());
+    }
+
+    /**
+     * Generate csv
+     */
+    private void exportAndSend() {
+
+        try {
+            String fileName = Environment.getExternalStorageDirectory() + "/" + "parcels.csv";
+            manager.export(fileName);
+
+            // send email
+            Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+            intent.setType("message/rfc822");//text/plain");
+            intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.email_subject));
+
+            File output = new File(fileName);
+            Uri uri = Uri.fromFile(output);
+
+            intent.putExtra(android.content.Intent.EXTRA_STREAM, uri);
+            startActivity(Intent.createChooser(intent, getString(R.string.email_title).toString()));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -1,5 +1,7 @@
 package com.muje.parcel;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,6 +29,9 @@ public class ShipmentManager {
     private static final String SQL_SELECT_TRACKS = "SELECT Tracks.*, Shipments.Number FROM Tracks JOIN Shipments ON Tracks.ShipmentId=Shipments.Id WHERE Shipments.Number = ?";
     private static final String SQL_DELETE_ALL_TRACKS = "DELETE FROM Tracks";
     private static final String SQL_DELETE_ALL_SHIPMENTS = "DELETE FROM Shipments";
+    private static final String SQL_EXPORT_TRACKS = "SELECT Shipments.Number, Shipments.Label, Tracks.Date, Tracks.Location, Tracks.Description FROM Tracks JOIN Shipments ON Tracks.ShipmentId=Shipments.Id";
+    private static final String DELIMITER = ",";
+    private static final String DOUBLE_QUOTES = "\"";
 
     private ArrayList<Shipment> shipments;
     public ArrayList<Shipment> getShipments() { return this.shipments; }
@@ -239,5 +244,76 @@ public class ShipmentManager {
         }
 
         return updates;
+    }
+
+    /**
+     * Export to local csv file.
+     * @param path
+     */
+    public void export(String path) {
+
+        String content = "";
+
+        // add csv header
+        content += addDoubleQuote("Number");
+        content += DELIMITER + addDoubleQuote("Label");
+        content += DELIMITER + addDoubleQuote("Date");
+        content += DELIMITER + addDoubleQuote("Location");
+        content += DELIMITER + addDoubleQuote("Description");
+        content += "\n";
+
+        Cursor cursor = database.rawQuery(SQL_EXPORT_TRACKS, null);
+        cursor.moveToFirst();
+        while(!cursor.isAfterLast()) {
+            String consignmentNo = cursor.getString(0);
+            String label = cursor.getString(1);
+            String date = cursor.getString(2);
+            String location = cursor.getString(3);
+            String desc = cursor.getString(4);
+
+            content += addDoubleQuote(consignmentNo);
+            content += DELIMITER + addDoubleQuote(label);
+            content += DELIMITER + addDoubleQuote(date);//dateFormat.format(toDate(date)));
+            content += DELIMITER + addDoubleQuote(location);
+            content += DELIMITER + addDoubleQuote(desc);
+            content += "\n";
+
+            cursor.moveToNext();
+        }
+        cursor.close();
+
+        FileOutputStream outputStream = null;
+
+        try {
+            outputStream = new FileOutputStream(path);
+            outputStream.write(content.getBytes());
+            outputStream.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            try {
+                if(outputStream != null) {
+                    outputStream.flush();
+                }
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        }
+
+    }
+    private String addDoubleQuote(String value) {
+        return DOUBLE_QUOTES + value + DOUBLE_QUOTES;
+    }
+    private Date toDate(String dateString) {
+        Date date = null;
+        try {
+            SimpleDateFormat dt = new SimpleDateFormat("M/dd/yyyy hh:mm:ss a");
+            date = dateFormat.parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return date;
     }
 }
