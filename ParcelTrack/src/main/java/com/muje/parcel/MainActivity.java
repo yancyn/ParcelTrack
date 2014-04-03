@@ -181,6 +181,10 @@ public class MainActivity extends ActionBarActivity {
                     startActivity(browser);
                     return true;
 
+                // todo: Share link to other app
+                case R.id.action_share:
+                    return true;
+
                 // Add annotation
                 case R.id.action_annotate:
                     final Shipment shipment1 = shipments.get(selectedIndex);
@@ -263,7 +267,16 @@ public class MainActivity extends ActionBarActivity {
             // export history into excel
             case R.id.action_export:
                 if(getPackageName().equals(getString(R.string.free_package_name))) {
-                    Toast.makeText(this, getString(R.string.upgrade_prompt), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this, getString(R.string.upgrade_prompt), Toast.LENGTH_SHORT).show();
+                    AlertDialog.Builder prompt = new AlertDialog.Builder(this);
+                    prompt.setMessage(getString(R.string.upgrade_prompt))
+                            .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    // do nothing
+                                }
+                            })
+                            .show();
                     return true;
                 }
 
