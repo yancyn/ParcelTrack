@@ -2,8 +2,11 @@ package com.muje.parcel;
 
 import com.muje.util.HtmlParser;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 //import android.util.Log;
 
@@ -23,79 +26,89 @@ public class Poslaju extends Carrier {
         this.url = String.format("http://www.poslaju.com.my/track.aspx?connoteno=%s", consignmentNo);
     }
 
+	// TODO: json http://www.pos.com.my/emstrack/TrackService.asmx   {"connoteno":"EF197274475MY"}
 	@Override
 	public void trace(String consignmentNo) throws Exception {
 		this.tracks.clear();
 
-		this.url = String.format("http://www.poslaju.com.my/track.aspx?connoteno=%s", consignmentNo);
+		//this.url = String.format("http://www.poslaju.com.my/track.aspx?connoteno=%s", consignmentNo);
+        //parser.getTable(String.format("<TABLE.*id=\"%s\".*?>(.*?)</table>", consignmentNo));
 
+        this.url = String.format("http://www.pos.com.my/emstrack/viewdetail.asp?parcelno=%s", consignmentNo);
         HtmlParser parser = new HtmlParser(this.url);
-        parser.getTable(String.format("<TABLE.*id=\"%s\".*?>(.*?)</table>", consignmentNo));
+        parser.getTable(String.format("<table class=\"login\".*?>(.*?)</table>", consignmentNo));
         ArrayList<String> lines = parser.getTableLines("<td.*?>(^\\s|.*?)</td>");
 		
 		String date = "";
 		String location = "";
 		String desc = "";
-		for (int i = 0; i < lines.size(); i++) {
-			//Log.d("DEBUG", lines.get(i));
-			switch (i % 3) {
+        // ignore header lines
+		for (int i = 4; i < lines.size(); i++) {
+			switch (i % 4) {
 			case 0:
-				if (location.length() > 0) {
-					this.tracks.add(new Track(toDate(date), location, desc));
-					date = "";
-					location = "";
-					desc = "";
-				}
 				date = HtmlParser.getCellValue(lines.get(i));
 				break;
 			case 1:
+                date += " " + HtmlParser.getCellValue(lines.get(i));
+                break;
+            case 2:
 				desc = HtmlParser.getCellValue(lines.get(i));
 				break;
-			case 2:
+			case 3:
 				location = HtmlParser.getCellValue(lines.get(i));
+                if (location.length() > 0) {
+                    this.tracks.add(new Track(toDate(date), location, desc));
+                    date = "";
+                    location = "";
+                    desc = "";
+                }
 				break;
 			}
 		}
-
-		// this.tracks.add(new Track(new Date(2012, 1, 1), "BM", "Send"));
-		// this.tracks.add(new Track(new Date(2012, 1, 2), "Ipoh", "Collect"));
-		// this.tracks.add(new Track(new Date(2012, 1, 3), "Hutan Melintang",
-		// "Delivered"));
 	}
 	/**
 	 * Convert Malaysia local date string to date object.
 	 * 
-	 * @param dateString
+	 * @param date
 	 * @return
 	 */
-    private Date toDate(String dateString) {
-        Date date = new Date();
+    private Date toDate(String date) throws ParseException {
 
-        try {
-            String[] pieces = dateString.split(" ");
-            String[] ddmmyy = pieces[0].split("/");
-            String[] ttmmss = pieces[1].split(":");
+        //convert 05-Mar-2014 16:34:00
+        Date output = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy hh:mm:ss", new Locale("en"));
+        output = dateFormat.parse(date);
 
-            int minute = 0;
-            if(ttmmss.length > 1) {
-                minute = Integer.parseInt(ttmmss[1].trim());
-            }
-            int second = 0;
-            if(ttmmss.length > 2) {
-                second = Integer.parseInt(ttmmss[2].trim());
-            }
-            date = new Date(Integer.parseInt(ddmmyy[2].trim()) - 1900,
-                    Integer.parseInt(ddmmyy[1].trim()) - 1,
-                    Integer.parseInt(ddmmyy[0].trim()),
-
-                    Integer.parseInt(ttmmss[0].trim()),
-                    minute,
-                    second);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
-        return date;
+        return output;
     }
+//    private Date toDate(String dateString) {
+//        Date date = new Date();
+//
+//        try {
+//            String[] pieces = dateString.split(" ");
+//            String[] ddmmyy = pieces[0].split("/");
+//            String[] ttmmss = pieces[1].split(":");
+//
+//            int minute = 0;
+//            if(ttmmss.length > 1) {
+//                minute = Integer.parseInt(ttmmss[1].trim());
+//            }
+//            int second = 0;
+//            if(ttmmss.length > 2) {
+//                second = Integer.parseInt(ttmmss[2].trim());
+//            }
+//            date = new Date(Integer.parseInt(ddmmyy[2].trim()) - 1900,
+//                    Integer.parseInt(ddmmyy[1].trim()) - 1,
+//                    Integer.parseInt(ddmmyy[0].trim()),
+//
+//                    Integer.parseInt(ttmmss[0].trim()),
+//                    minute,
+//                    second);
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//        }
+//
+//        return date;
+//    }
 	
 }
