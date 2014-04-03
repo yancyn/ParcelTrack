@@ -18,6 +18,7 @@
     <string name="email_title">Hantar E-mel</string>
 
     <string name="action_open_link">Buka dalam Laman Web</string>
+    <string name="action_share">Berkongsi</string>
     <string name="action_annotate">Tambah Label</string>
     <string name="annotation_title">Tambah Label</string>
     <string name="annotation_summary">Sila masukkan label anda</string>

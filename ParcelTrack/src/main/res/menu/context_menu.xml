@@ -5,6 +5,10 @@
         android:title="@string/action_open_link"
         android:orderInCategory="10"
         android:showAsAction="never" />
+    <item android:id="@+id/action_share"
+        android:title="@string/action_share"
+        android:orderInCategory="11"
+        android:showAsAction="never" />
     <item android:id="@+id/action_annotate"
         android:title="@string/action_annotate"
         android:orderInCategory="20"

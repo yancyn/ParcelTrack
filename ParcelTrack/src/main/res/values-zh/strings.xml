@@ -14,6 +14,7 @@
     <string name="cancel">取消</string>
 
     <string name="action_open_link">打开浏览器</string>
+    <string name="action_share">分享</string>
     <string name="action_annotate">添加标签</string>
     <string name="annotation_title">添加标签</string>
     <string name="annotation_summary">请输入您的标签</string>
