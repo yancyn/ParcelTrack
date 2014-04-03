@@ -181,8 +181,15 @@ public class MainActivity extends ActionBarActivity {
                     startActivity(browser);
                     return true;
 
-                // todo: Share link to other app
+                // Share link to other app
                 case R.id.action_share:
+                    String message = String.format(getString(R.string.share_message), shipment.getConsignmentNo(), shipment.getUrl());
+
+                    Intent sendIntent = new Intent();
+                    sendIntent.setAction(Intent.ACTION_SEND);
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, message);
+                    sendIntent.setType("text/plain");
+                    startActivity(sendIntent);
                     return true;
 
                 // Add annotation

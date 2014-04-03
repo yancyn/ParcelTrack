@@ -19,6 +19,7 @@
 
     <string name="action_open_link">Buka dalam Laman Web</string>
     <string name="action_share">Berkongsi</string>
+    <string name="share_message" formatted="false">Dapatkan maklumat bungkusan %s di %s --BungkusanCarian</string>
     <string name="action_annotate">Tambah Label</string>
     <string name="annotation_title">Tambah Label</string>
     <string name="annotation_summary">Sila masukkan label anda</string>
