@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">包裹查尋</string>
+    <string name="hello_world">嗨世界!</string>
+    <string name="comma">,\u0020</string>
+    <string name="hour">\u0020小時</string>
+    <string name="invalid">未找到!</string>
+    <string name="item_delivered">\u0020件已收到</string>
+    <string name="are_you_sure">確定?"</string>
+    <string name="yes">是</string>
+    <string name="no">否</string>
+    <string name="ok">好</string>
+    <string name="cancel">取消</string>
+
+    <string name="action_open_link">打開瀏覽器</string>
+    <string name="action_share">分享</string>
+    <string name="share_message" formatted="false">查尋包裹詳情%s在%s--包裹查尋</string>
+    <string name="action_annotate">添加標籤</string>
+    <string name="annotation_title">添加標籤</string>
+    <string name="annotation_summary">請輸入您的標籤</string>
+    <string name="action_update">更新</string>
+    <string name="action_delete">刪除</string>
+    <string name="action_export">輸出全部及發送</string>
+    <string name="action_update_all">刷新全部</string>
+    <string name="action_clear_all">刪除記錄</string>
+    <string name="action_settings">設定</string>
+    <string name="processing">處理中</string>
+    <string name="wait_title">請稍候</string>
+    <string name="processing_content">提取數據…</string>
+    <string name="email_title">發送電子郵件</string>
+
+    <string name="pref_notification">通知</string>
+    <string name="notification_hour">小時</string>
+    <string name="notification_hour_title">間隔時間</string>
+    <string name="notification_title">啟用</string>
+    <string name="notification_summary">自動更新時間</string>
+    <string name="title_activity_about">關於</string>
+    <string name="help">幫助</string>
+    <string name="contact">聯繫</string>
+    <string name="contact_email">yancyn@gmail.com</string>
+    <string name="version">版本</string>
+    <string name="upgrade">升級</string>
+    <string name="upgrade_title">升級</string>
+    <string name="upgrade_summary">升級至高級版本以去除廣告和享受更多功能！</string>
+    <string name="upgrade_prompt">升級後才能使用此功能。</string>
+    <string name="error_title">報告問題</string>
+    <string name="error_summary">報告發現的錯誤或者任何建議</string>
+    <string name="email_subject">包裹記錄</string>
+
+</resources>
