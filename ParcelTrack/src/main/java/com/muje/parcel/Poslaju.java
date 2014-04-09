@@ -36,7 +36,7 @@ public class Poslaju extends Carrier {
 
         this.url = String.format("http://www.pos.com.my/emstrack/viewdetail.asp?parcelno=%s", consignmentNo);
         HtmlParser parser = new HtmlParser(this.url);
-        parser.getTable(String.format("<table class=\"login\".*?>(.*?)</table>", consignmentNo));
+        parser.getTable("<table class=\"login\".*?>(.*?)</table>");
         ArrayList<String> lines = parser.getTableLines("<td.*?>(^\\s|.*?)</td>");
 		
 		String date = "";

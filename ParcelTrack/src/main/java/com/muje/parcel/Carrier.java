@@ -40,6 +40,8 @@ public abstract class Carrier {
             return R.drawable.gdex;
         } else if(this.name.equals("fedex")) {
             return R.drawable.fedex;
+        } else if(this.name.equals("skynet")) {
+            return R.drawable.skynet;
         }
 		
 		return -1;//null

@@ -69,6 +69,8 @@ public class Shipment {
         this.label = "";
         this.tracks = new ArrayList<Track>();
         this.consignmentNo = consignmentNo;
+
+        // TODO: Move to ShipmentManager.trace for better handling on locateCourier Skynet & FedEx
         try {
             locateCourier();
         } catch (Exception e) {
@@ -95,6 +97,11 @@ public class Shipment {
         //check is gdex's parcel ie. 4340560475
         else if(consignmentNo.matches("[0-9]{10}")) {
             carrier = new Gdex(this.consignmentNo);
+        }
+        //TODO: Skynet no pattern conflict with FedEx
+        // check is Skynet's parcel ie. 238074386631
+        else if(consignmentNo.matches("[0-9]{12}")) {
+            carrier = new Skynet(this.consignmentNo);
         }
         //check is FedEx's parcel ie. 797337230186
         else if(consignmentNo.matches("[0-9]{12}")) {
