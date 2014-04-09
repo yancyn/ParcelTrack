@@ -10,8 +10,6 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
-import android.preference.PreferenceScreen;
-import android.preference.SwitchPreference;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
