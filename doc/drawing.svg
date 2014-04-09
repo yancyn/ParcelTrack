@@ -209,11 +209,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.26601099"
-     inkscape:cx="603.51036"
-     inkscape:cy="621.2364"
+     inkscape:zoom="0.34226185"
+     inkscape:cx="293.33338"
+     inkscape:cy="472.47109"
      inkscape:document-units="px"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="layer2"
      showgrid="false"
      inkscape:window-width="1600"
      inkscape:window-height="796"
@@ -221,7 +221,12 @@
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
      showguides="true"
-     inkscape:guide-bbox="true" />
+     inkscape:guide-bbox="true">
+    <sodipodi:guide
+       orientation="0,1"
+       position="-448.33633,1030.824"
+       id="guide3206" />
+  </sodipodi:namedview>
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -238,7 +243,9 @@
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1">
+     id="layer1"
+     style="display:inline"
+     sodipodi:insensitive="true">
     <rect
        style="color:#000000;fill:#ac844a;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        id="rect2996"
@@ -545,7 +552,8 @@
   <g
      inkscape:groupmode="layer"
      id="layer2"
-     inkscape:label="Art">
+     inkscape:label="Art"
+     style="display:inline">
     <g
        transform="translate(-5.9438489,6.9571729)"
        id="g2986">
@@ -576,5 +584,40 @@
          d="m 9.9375,0.53125 0,24 4,-6.9375 4,-6.9375 4,6.9375 4,6.9375 0,-24 -16,0 z"
          style="color:#000000;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:4;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
     </g>
+    <path
+       id="path3208"
+       style="color:#000000;fill:#ec222a;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="m 323.76463,161.98843 -12.47833,0 3.23799,-9.10661 12.53177,0 -0.78034,2.32363 -5.27361,0 -0.29179,0.77555 5.25225,0 -0.83048,2.37922 -5.31959,0 -0.35913,0.84327 5.337,0 z m 4.21043,0 1.98823,-6.11432 -2.24485,0 0.93452,-2.99229 12.18037,0 -1.0965,2.99229 -2.89234,0 -2.23847,6.11432 z m -33.50082,0 3.22823,-9.10661 6.95074,0 1.3927,2.94433 1.20079,-2.94433 5.90602,0 -3.31129,9.10661 -6.81351,0 -1.48358,-2.9277 -1.25237,2.9277 z m -35.54902,-6.54472 4.99159,-12.21091 8.47935,0 -1.30638,3.6246 5.93419,-3.6246 16.02056,0 1.0937,3.27982 3.59775,-3.27982 8.93586,0 -11.23092,9.53909 -0.97717,2.67182 -8.24322,0 0.80929,-3.17345 -2.605,-7.01519 -6.34304,4.1352 3.551,6.05344 -9.92009,0 -2.69867,-3.57886 -1.63684,3.57886 z m -11.26115,0.45369 c -2.36853,-0.28162 -3.86754,-0.63158 -5.68498,-1.32723 -0.9532,-0.36484 -1.14769,-0.48292 -1.14574,-0.69557 0.002,-0.23866 1.14084,-3.55608 1.26224,-3.67748 0.0303,-0.0303 0.64248,0.16472 1.36048,0.43329 1.99006,0.7444 2.73824,0.91496 4.0533,0.924 1.06313,0.007 1.20164,-0.0179 1.44743,-0.26355 0.23854,-0.23839 0.25007,-0.29291 0.0942,-0.4455 -0.0977,-0.0956 -0.62345,-0.23407 -1.16842,-0.30765 -1.447,-0.19537 -2.28259,-0.43411 -3.29804,-0.94229 -1.19534,-0.59822 -1.39667,-0.88828 -1.39028,-2.00299 0.004,-0.70849 0.0672,-0.98745 0.34446,-1.52186 0.59969,-1.15587 1.98145,-2.26166 3.4876,-2.79103 1.17299,-0.41227 2.34566,-0.54111 4.93107,-0.54177 2.63097,-6.8e-4 3.90511,0.1311 5.71911,0.5915 1.28605,0.3264 3.69785,1.21108 3.92737,1.4406 0.12771,0.12771 0.0316,0.45864 -0.52596,1.81152 -0.40432,0.98103 -0.74923,1.65527 -0.84675,1.65527 -0.0905,0 -0.56052,-0.15634 -1.0445,-0.34743 -2.44754,-0.96637 -4.70777,-1.22219 -5.44616,-0.61643 -0.24825,0.20365 -0.255,0.23929 -0.0793,0.41819 0.10895,0.11092 0.55383,0.24607 1.02798,0.31228 1.49502,0.20875 3.08112,0.86453 3.77905,1.56246 0.92653,0.92653 0.54385,2.85614 -0.83832,4.22705 -1.60445,1.5914 -3.73903,2.19891 -7.60756,2.16517 -1.09753,-0.01 -2.15877,-0.0368 -2.35832,-0.0606 z"
+       inkscape:export-filename="E:\projects\ParcelTrack\ParcelTrack\src\main\res\drawable\skynet.png"
+       inkscape:export-xdpi="10.742807"
+       inkscape:export-ydpi="10.742807"
+       inkscape:connector-curvature="0" />
+    <rect
+       style="color:#000000;fill:none;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect4021"
+       width="340"
+       height="72"
+       x="0.83333343"
+       y="89.988434"
+       ry="0" />
+    <text
+       sodipodi:linespacing="125%"
+       id="text4025"
+       y="115.19071"
+       x="43.56081"
+       style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Calibri;-inkscape-font-specification:Calibri"
+       xml:space="preserve"><tspan
+         y="115.19071"
+         x="43.56081"
+         id="tspan4027"
+         sodipodi:role="line">EF2162388MY</tspan></text>
+    <path
+       inkscape:connector-curvature="0"
+       inkscape:export-ydpi="72"
+       inkscape:export-xdpi="72"
+       inkscape:export-filename="C:\Users\yeang-shing.then\Desktop\rect3000.png"
+       id="path4031"
+       d="m 3.9936511,89.988436 0,24.000004 4,-6.9375 3.9999999,-6.9375 4,6.9375 4,6.9375 0,-24.000004 -15.9999999,0 z"
+       style="color:#000000;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:4;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
   </g>
 </svg>
