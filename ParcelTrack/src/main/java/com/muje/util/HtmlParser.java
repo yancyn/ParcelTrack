@@ -1,5 +1,7 @@
 package com.muje.util;
 
+import android.text.Html;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -7,6 +9,8 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -100,6 +104,9 @@ public class HtmlParser {
             response += line;
         }
         reader.close();
+
+        //response = EntityUtils.toString(entity, HTTP.UTF_8);
+        //response = Html.escapeHtml(response); // require min sdk
 
         // extract delivery html table
         tableHtml = "";

@@ -37,6 +37,8 @@ public abstract class Carrier {
             return R.drawable.fedex;
         } else if(this.name.equals("skynet")) {
             return R.drawable.skynet;
+        } else if(this.name.equals("ups")) {
+            return R.drawable.ups;// source http://upload.wikimedia.org/wikipedia/en/9/9f/United_Parcel_Service_logo.svg
         }
 		
 		return -1;//null

@@ -41,6 +41,7 @@ public class ShipmentManager {
         this.shipments = new ArrayList<Shipment>();
         initialize();
     }
+    // todo: failed to retrieve carrier provider for Skynet and FedEx.
     private void initialize() {
         //Log.d("DEBUG", "Initializing manager");
         dbHelper = new DbHelper(context);
@@ -116,6 +117,10 @@ public class ShipmentManager {
         //check is FedEx's parcel ie. 797337230186
         else if(consignmentNo.matches("[0-9]{12}")) {
             carrier = new Fedex(consignmentNo);
+        }
+        // check if UPS no. 1Z71EY050499423570
+        else if(consignmentNo.matches("[1][Z][A-Z0-9]{6}[0-9]{2}[0-9]{8}")) {
+            carrier = new Ups(consignmentNo);
         }
 
         return carrier;

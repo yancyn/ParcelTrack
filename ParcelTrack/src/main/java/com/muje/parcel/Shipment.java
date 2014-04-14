@@ -88,24 +88,28 @@ public class Shipment {
         //determine which Carrier to be use
         //check is poslaju's parcel ie. EM046999084MY
         if(consignmentNo.matches("[a-zA-Z]{2}[0-9]{9}[a-zA-Z]{2}")) {
-            carrier = new Poslaju(this.consignmentNo);
+            carrier = new Poslaju(consignmentNo);
         }
         //check is citylink's parcel ie. 060301203057634
         else if(consignmentNo.matches("[0-9]{15}")) {
-            carrier = new Citylink(this.consignmentNo);
+            carrier = new Citylink(consignmentNo);
         }
         //check is gdex's parcel ie. 4340560475
         else if(consignmentNo.matches("[0-9]{10}")) {
-            carrier = new Gdex(this.consignmentNo);
+            carrier = new Gdex(consignmentNo);
         }
         //TODO: Skynet no pattern conflict with FedEx
         // check is Skynet's parcel ie. 238074386631
         else if(consignmentNo.matches("[0-9]{12}")) {
-            carrier = new Skynet(this.consignmentNo);
+            carrier = new Skynet(consignmentNo);
         }
-        //check is FedEx's parcel ie. 797337230186
+        // todo: check is FedEx's parcel ie. 797337230186. Some are 12, 14, and 15 digits
         else if(consignmentNo.matches("[0-9]{12}")) {
-            carrier = new Fedex(this.consignmentNo);
+            carrier = new Fedex(consignmentNo);
+        }
+        // check if UPS no. 1Z71EY050499423570
+        else if(consignmentNo.matches("[1][Z][A-Z0-9]{6}[0-9]{2}[0-9]{8}")) {
+            carrier = new Ups(consignmentNo);
         }
     }
 
