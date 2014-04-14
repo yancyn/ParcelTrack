@@ -32,15 +32,16 @@ public class ShipmentManager {
     private static final String DELIMITER = ",";
     private static final String DOUBLE_QUOTES = "\"";
 
+    private Shipment shipment;
     private ArrayList<Shipment> shipments;
     public ArrayList<Shipment> getShipments() { return this.shipments; }
 
 	public ShipmentManager(Context context) {
         this.context = context;
         this.shipments = new ArrayList<Shipment>();
-        Initialize();
+        initialize();
     }
-    private void Initialize() {
+    private void initialize() {
         //Log.d("DEBUG", "Initializing manager");
         dbHelper = new DbHelper(context);
         database = dbHelper.getWritableDatabase();
@@ -88,13 +89,44 @@ public class ShipmentManager {
         }
         return false;
     }
+    public String getProviderName() {
+        return this.shipment.getProviderName();
+    }
+    public Carrier getCarrier(String consignmentNo) throws Exception  {
+
+        Carrier carrier = null;
+        //determine which Carrier to be use
+        //check is poslaju's parcel ie. EM046999084MY
+        if(consignmentNo.matches("[a-zA-Z]{2}[0-9]{9}[a-zA-Z]{2}")) {
+            carrier = new Poslaju(consignmentNo);
+        }
+        //check is citylink's parcel ie. 060301203057634
+        else if(consignmentNo.matches("[0-9]{15}")) {
+            carrier = new Citylink(consignmentNo);
+        }
+        //check is gdex's parcel ie. 4340560475
+        else if(consignmentNo.matches("[0-9]{10}")) {
+            carrier = new Gdex(consignmentNo);
+        }
+        //TODO: Skynet no pattern conflict with FedEx
+        // check is Skynet's parcel ie. 238074386631
+        else if(consignmentNo.matches("[0-9]{12}")) {
+            carrier = new Skynet(consignmentNo);
+        }
+        //check is FedEx's parcel ie. 797337230186
+        else if(consignmentNo.matches("[0-9]{12}")) {
+            carrier = new Fedex(consignmentNo);
+        }
+
+        return carrier;
+    }
+
     public void track(String consignmentNo) {
         track(consignmentNo, "");
     }
     public void track(String consignmentNo, String label) {
 
-        //Log.d("DEBUG", "Not exist in database");
-        Shipment shipment = new Shipment(consignmentNo);
+        shipment = new Shipment(consignmentNo);
 
         try {
             shipment.trace();
@@ -114,7 +146,6 @@ public class ShipmentManager {
             values = new ContentValues();
             values.put("ShipmentId", id);
             String date = dateFormat.format(track.getDate());
-            //Log.d("DEBUG", "Date: " + date);
             values.put("Date", date);
             values.put("Location", track.getLocation());
             values.put("Description", track.getDescription());
@@ -130,7 +161,6 @@ public class ShipmentManager {
      */
     public void track(Carrier carrier, String consignmentNo) {
 
-        //Log.d("DEBUG", "Not exist in database");
         Shipment shipment = new Shipment(carrier);
 
         try {
@@ -138,7 +168,6 @@ public class ShipmentManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //shipment.setLabel(label);
 
         // insert shipment header into database
         ContentValues values = new ContentValues();
@@ -151,7 +180,6 @@ public class ShipmentManager {
             values = new ContentValues();
             values.put("ShipmentId", id);
             String date = dateFormat.format(track.getDate());
-            //Log.d("DEBUG", "Date: " + date);
             values.put("Date", date);
             values.put("Location", track.getLocation());
             values.put("Description", track.getDescription());
@@ -304,11 +332,12 @@ public class ShipmentManager {
     private String addDoubleQuote(String value) {
         return DOUBLE_QUOTES + value + DOUBLE_QUOTES;
     }
-    private Date toDate(String dateString) {
+
+    private Date toDate(String format) {
         Date date = null;
         try {
             SimpleDateFormat dt = new SimpleDateFormat("M/dd/yyyy hh:mm:ss a");
-            date = dateFormat.parse(dateString);
+            date = dateFormat.parse(format);
         } catch (ParseException e) {
             e.printStackTrace();
         }

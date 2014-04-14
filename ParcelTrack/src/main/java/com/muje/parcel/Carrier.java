@@ -15,11 +15,6 @@ public abstract class Carrier {
         this.consignmentNo = "";
         this.tracks = new ArrayList<Track>();
     }
-    public Carrier(String consignmentNo) {
-        this.name = "";
-        this.consignmentNo = consignmentNo;
-        this.tracks = new ArrayList<Track>();
-    }
 	protected String name;
 	/**
 	 * Return name of the provider after trace the consignment no.
