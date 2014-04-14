@@ -28,7 +28,6 @@ import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
@@ -443,6 +442,14 @@ public class MainActivity extends ActionBarActivity {
     private void trace(String consignmentNo) {
         if(!manager.isExist(consignmentNo)) {
             manager.track(consignmentNo);
+
+            // HACK: Handle Skynet and FedEx have same consignment no. pattern.
+            if(manager.getShipments().get(0).getTracks().size() == 0) {
+                manager.getShipments().remove(0);
+                if(manager.getProviderName().equals("skynet")) {
+                    manager.track(new Fedex(), consignmentNo);
+                }
+            }
         }
         runOnUiThread(returnRes);
     }
