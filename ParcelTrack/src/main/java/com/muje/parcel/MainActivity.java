@@ -445,7 +445,7 @@ public class MainActivity extends ActionBarActivity {
 
             // HACK: Handle Skynet and FedEx have same consignment no. pattern.
             if(manager.getShipments().get(0).getTracks().size() == 0) {
-                manager.getShipments().remove(0);
+                manager.delete(0, consignmentNo);
                 if(manager.getProviderName().equals("skynet")) {
                     manager.track(new Fedex(), consignmentNo);
                 }
